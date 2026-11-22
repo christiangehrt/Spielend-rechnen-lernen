@@ -1,9 +1,9 @@
 # Publishes the app to GitHub Pages (needs: Settings → Pages → Source: "GitHub Actions").
+# Runs on every push to the repository's default branch (whatever it is called) and on demand.
 name: Deploy to GitHub Pages
 
 on:
   push:
-    branches: [main]
   workflow_dispatch:
 
 permissions:
@@ -17,6 +17,7 @@ concurrency:
 
 jobs:
   build:
+    if: github.event_name == 'workflow_dispatch' || github.ref_name == github.event.repository.default_branch
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7

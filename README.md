@@ -49,7 +49,8 @@ Node 22 wird empfohlen.
 Service Worker (Offline-Modus) und Installation funktionieren nur über **HTTPS** (oder `localhost`).
 
 - **GitHub Pages:** Der Workflow `.github/workflows/deploy-pages.yml` baut und veröffentlicht die App
-  bei jedem Push auf `main`. Einmalig unter *Settings → Pages → Source* „GitHub Actions“ wählen.
+  bei jedem Push auf den Standard-Branch (oder per „Run workflow“). Einmalig unter
+  *Settings → Pages → Build and deployment → Source* „GitHub Actions“ wählen.
   Die App läuft mit relativen Pfaden und Hash-Routing, also auch unter `…/Spielend-rechnen-lernen/`.
 - **Im Heimnetz (ohne Offline-Modus):** `npm run build && npx vite preview --host` und auf dem Tablet
   `http://<IP-des-Rechners>:4173` öffnen.
