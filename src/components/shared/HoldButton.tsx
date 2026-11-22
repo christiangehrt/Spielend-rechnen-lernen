@@ -41,7 +41,7 @@ export function HoldButton({ onUnlock, durationMs = 3000, label }: Props) {
       aria-label={label}
       onPointerDown={(e) => {
         e.currentTarget.setPointerCapture?.(e.pointerId);
-        audio.unlock();
+        audio.unlock(false);
         start.current = performance.now();
         raf.current = requestAnimationFrame(tick);
       }}

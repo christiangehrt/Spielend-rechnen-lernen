@@ -40,6 +40,9 @@ function LoadedGame({ mod, profileId }: { mod: GameModule; profileId: string }) 
     if (!session) navigate({ name: 'lobby', gameId }, true);
   }, [session, gameId]);
 
+  // Leaving the game silences any sentence that is still being spoken.
+  useEffect(() => () => audio.stopSpeech(), []);
+
   const result = useMemo(() => (state ? mod.result(state) : null), [mod, state]);
   const [showResult, setShowResult] = useState(false);
   useEffect(() => {

@@ -62,7 +62,7 @@ export function StickerAlbum() {
 
   // ----- tray: drag a sticker up into the scene, or tap to arm it -----
   const onTrayDown = (e: ReactPointerEvent, stickerId: string) => {
-    audio.unlock();
+    audio.unlock(false);
     gesture.current = { kind: 'new', stickerId, pointerId: e.pointerId, startX: e.clientX, startY: e.clientY, moved: false };
     const move = (ev: PointerEvent) => {
       const g = gesture.current;

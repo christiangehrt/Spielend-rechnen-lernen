@@ -142,7 +142,7 @@ export function BlitzFuenfView({ state, dispatch }: GameViewProps<BfState, BfAct
           className="bf__buzzer"
           aria-label="Blitz-Knopf"
           onPointerDown={(e) => {
-            audio.unlock();
+            audio.unlock(false);
             buzz(human, e.timeStamp);
           }}
         >

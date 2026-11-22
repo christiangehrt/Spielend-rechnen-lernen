@@ -23,28 +23,33 @@ export function App() {
     });
   }, []);
 
-  // Audio unlock on the very first user gesture (iOS / Chrome autoplay policy).
+  // Audio unlock (iOS / Chrome autoplay policy): pointerdown only prepares the
+  // AudioContext; touchend/click/keydown are real activations. Listeners stay
+  // until audio output actually runs.
   useEffect(() => {
-    const unlock = () => {
-      audio.unlock();
-      window.removeEventListener('pointerdown', unlock, true);
-      window.removeEventListener('keydown', unlock, true);
+    const prepare = () => audio.unlock(false);
+    const activate = () => {
+      audio.unlock(true);
+      if (audio.isUnlocked) {
+        // resume() is async – check again shortly before removing the listeners
+        setTimeout(() => {
+          if (audio.isUnlocked) remove();
+        }, 300);
+      }
     };
-    window.addEventListener('pointerdown', unlock, true);
-    window.addEventListener('keydown', unlock, true);
-    return () => {
-      window.removeEventListener('pointerdown', unlock, true);
-      window.removeEventListener('keydown', unlock, true);
+    const events = ['touchend', 'click', 'keydown'] as const;
+    const remove = () => {
+      window.removeEventListener('pointerdown', prepare, true);
+      events.forEach((e) => window.removeEventListener(e, activate, true));
     };
+    window.addEventListener('pointerdown', prepare, true);
+    events.forEach((e) => window.addEventListener(e, activate, true));
+    return remove;
   }, []);
 
   useEffect(() => {
     if (profile) audio.configure({ soundEnabled: profile.settings.soundEnabled, speechEnabled: profile.settings.speechEnabled });
   }, [profile]);
-
-  useEffect(() => {
-    audio.stopSpeech();
-  }, [route.name]);
 
   if (!manifests) return <div className="app"><div className="loading">⏳</div></div>;
 

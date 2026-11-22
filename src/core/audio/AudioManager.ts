@@ -49,7 +49,7 @@ export class AudioManager {
   private loading = new Map<string, Promise<AudioBuffer | null>>();
   private soundEnabled = true;
   private speechEnabled = true;
-  private unlocked = false;
+  private speechPrimed = false;
   private speechToken = 0;
   private activeSources: AudioBufferSourceNode[] = [];
 
@@ -67,20 +67,32 @@ export class AudioManager {
     if (this.ctx) this.preload();
   }
 
-  get isUnlocked() {
-    return this.unlocked;
+  /** True once audio output really runs (the context was resumed inside a user gesture). */
+  get isRunning() {
+    return this.ctx?.state === 'running';
   }
 
-  /** Must run inside a user gesture handler (pointerdown/click). Safe to call repeatedly. */
-  unlock() {
+  get isUnlocked() {
+    return this.isRunning && this.speechPrimed;
+  }
+
+  /**
+   * Call from user gestures. On touch devices only `touchend`/`click`/`keydown`
+   * count as activation (not `pointerdown`), so pass `activation = false` for
+   * early, non-activating events: the context is created (and sprites decode)
+   * but resuming and speech priming are retried on the next real activation.
+   * Safe to call repeatedly.
+   */
+  unlock(activation = true) {
     try {
       const Ctor = getAudioCtor();
       if (!this.ctx && Ctor) {
         this.ctx = new Ctor();
         this.preload();
       }
-      if (this.ctx && this.ctx.state !== 'running') void this.ctx.resume().catch(() => undefined);
-      if (this.ctx && !this.unlocked) {
+      if (!activation) return;
+      if (this.ctx && this.ctx.state !== 'running') {
+        void this.ctx.resume().catch(() => undefined);
         // A one-sample silent buffer fully unlocks output on iOS Safari.
         const silent = this.ctx.createBuffer(1, 1, 22050);
         const src = this.ctx.createBufferSource();
@@ -88,13 +100,13 @@ export class AudioManager {
         src.connect(this.ctx.destination);
         src.start(0);
       }
-      if (!this.unlocked && 'speechSynthesis' in globalThis) {
+      if (!this.speechPrimed && 'speechSynthesis' in globalThis) {
         // Speaking an empty utterance inside a gesture unlocks speech on iOS.
         const u = new SpeechSynthesisUtterance('');
         u.volume = 0;
         globalThis.speechSynthesis.speak(u);
+        this.speechPrimed = true;
       }
-      this.unlocked = true;
     } catch {
       /* audio is optional – never break the app */
     }
