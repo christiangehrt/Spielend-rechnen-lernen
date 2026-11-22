@@ -225,6 +225,22 @@
       "src": "assets/art/ui-stack.svg",
       "emoji": "📚"
     },
+    "theme.jungle": {
+      "src": "assets/art/theme-jungle.svg",
+      "emoji": "🌴"
+    },
+    "theme.space": {
+      "src": "assets/art/theme-space.svg",
+      "emoji": "🚀"
+    },
+    "theme.ocean": {
+      "src": "assets/art/theme-ocean.svg",
+      "emoji": "🐠"
+    },
+    "theme.farm": {
+      "src": "assets/art/theme-farm.svg",
+      "emoji": "🚜"
+    },
     "fruit.strawberry": {
       "src": "assets/art/fruit-strawberry.svg",
       "emoji": "🍓"

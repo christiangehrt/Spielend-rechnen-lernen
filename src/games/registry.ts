@@ -34,7 +34,7 @@ export const GAMES: RegistryEntry[] = [
     intro: 'Nachbar-Reihe kommt bald.',
     phase: 3,
   }),
-  { meta: klappenZu },
+  { meta: klappenZu, load: () => import('./klappen-zu') },
   planned({
     id: 'schlummer-schloss',
     title: 'Schlummer-Schloss',
@@ -53,9 +53,9 @@ export const GAMES: RegistryEntry[] = [
     intro: 'Blitz-Fünf kommt bald.',
     phase: 3,
   }),
-  { meta: verliebteZahlen },
-  { meta: zahlenstrahlHuepfen },
-  { meta: zahlenDetektiv },
+  { meta: verliebteZahlen, load: () => import('./verliebte-zahlen') },
+  { meta: zahlenstrahlHuepfen, load: () => import('./zahlenstrahl-huepfen') },
+  { meta: zahlenDetektiv, load: () => import('./zahlen-detektiv') },
 ];
 
 export const getEntry = (id: string) => GAMES.find((g) => g.meta.id === id);

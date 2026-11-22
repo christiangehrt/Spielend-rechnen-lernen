@@ -101,7 +101,7 @@ export const reduce = (s: VzState, a: VzAction): VzState => {
   // Exactly 10: the set moves into the basket.
   return {
     ...s,
-    history: pushHistory({ ...s, selected: [] }),
+    history: pushHistory<VzState>({ ...s, selected: [] }),
     tiles: s.tiles.map((t) => (selected.includes(t.id) ? { ...t, state: 'collected' as const } : t)),
     selected: [],
     basket: [...s.basket, selected],

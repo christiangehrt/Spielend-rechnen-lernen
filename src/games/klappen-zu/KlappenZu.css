@@ -1,0 +1,59 @@
+.kz { flex: 1; min-height: 0; display: flex; flex-direction: column; align-items: center; justify-content: space-between; padding: 8px 16px 18px; gap: 12px; }
+.kz__box {
+  display: flex; gap: clamp(4px, 0.8vw, 10px); padding: 18px 20px 26px; border-radius: 28px; max-width: 100%;
+  background: linear-gradient(#8b5a2b, #6e4520); box-shadow: inset 0 -10px 0 rgba(0,0,0,.18), 0 10px 24px rgba(0,0,0,.18);
+  perspective: 700px;
+}
+.kz-flap {
+  width: clamp(62px, 8.6vw, 104px); height: clamp(120px, 24vh, 190px); border: 0; border-radius: 14px 14px 8px 8px;
+  display: flex; flex-direction: column; align-items: center; justify-content: flex-start; gap: 8px; padding-top: 14px;
+  background: linear-gradient(#ffe7c2, #f3c98b); color: #5a3412; cursor: pointer; transform-origin: bottom center;
+  box-shadow: 0 6px 0 #c9944f; transition: transform .35s cubic-bezier(.3,1.4,.5,1), background .2s, box-shadow .2s;
+}
+.kz-flap__num { font-family: var(--font-num); font-weight: 600; font-size: clamp(34px, 5vw, 56px); line-height: 1; }
+.kz-flap__dots .dots__grid { fill: #fff8ec; }
+.kz-flap--selected { background: linear-gradient(#cfe0ff, #9fbcf5); color: var(--c-blue-dark); transform: translateY(10px); box-shadow: 0 0 0 5px var(--c-blue), 0 4px 0 #6f91d8; }
+.kz-flap--hint { box-shadow: 0 0 0 5px var(--c-gold), 0 6px 0 #c9944f; animation: pulse 1s ease-in-out infinite; }
+.kz-flap--closed { background: linear-gradient(#5b3a1a, #4a2e13); color: rgba(255,255,255,.18); transform: rotateX(62deg); box-shadow: 0 2px 0 #2f1d0b; cursor: default; }
+.kz-flap--closed .kz-flap__num { opacity: .5; }
+.kz-flap--just { animation: flap-close .45s ease; }
+@keyframes flap-close { from { transform: rotateX(0); } to { transform: rotateX(62deg); } }
+.kz__middle { flex: 1; min-height: 0; display: flex; align-items: center; justify-content: center; gap: 40px; flex-wrap: wrap; }
+.kz__dice { display: flex; align-items: center; gap: 16px; }
+.kz__eq { font-family: var(--font-num); font-size: 64px; font-weight: 600; }
+.kz__sum { display: flex; flex-direction: column; align-items: center; gap: 12px; background: #fff; border-radius: 24px; padding: 14px 22px; box-shadow: var(--shadow); }
+.kz__cells { display: flex; gap: 4px; flex-wrap: wrap; justify-content: center; max-width: 420px; }
+.kz__cell { width: 26px; height: 26px; border-radius: 7px; border: 3px solid #d8d0bf; background: #fff; transition: background .2s; }
+.kz__cell:nth-child(5n) { margin-right: 6px; }
+.kz__equation { font-family: var(--font-num); font-size: 44px; font-weight: 600; display: flex; align-items: center; gap: 6px; }
+.kz__op { color: var(--c-muted); margin: 0 6px; }
+.kz__term--done { color: var(--c-green); }
+.kz__placeholder { color: #c8c0ae; }
+.kz__over { display: flex; align-items: center; gap: 16px; font-family: var(--font-num); font-size: 64px; font-weight: 600; animation: pop-in .3s ease; }
+.kz__actions { display: flex; gap: 18px; align-items: center; min-height: 110px; }
+.kz__confirm--off { background: #eee8db; color: #a39c8c; }
+@media (max-height: 600px) {
+  .kz-flap { height: clamp(96px, 30vh, 140px); padding-top: 8px; }
+  .kz-flap__dots { display: none; }
+  .kz__box { padding: 10px 12px 16px; }
+  .kz__dice svg { width: 70px; height: 70px; }
+  .kz__eq { font-size: 46px; }
+  .kz__equation { font-size: 32px; }
+  .kz__cell { width: 20px; height: 20px; }
+  .kz__actions { min-height: 90px; }
+}
+@media (max-height: 500px) {
+  .kz { flex-direction: row; flex-wrap: wrap; align-content: space-between; justify-content: center; gap: 8px 20px; padding: 4px 12px 8px; }
+  .kz__box { flex-basis: 100%; justify-content: center; padding: 8px 10px 12px; border-radius: 20px; }
+  .kz-flap { height: 32vh; padding-top: 6px; }
+  .kz__middle { flex: 0 1 auto; gap: 16px; }
+  .kz__dice svg { width: 60px; height: 60px; }
+  .kz__eq { font-size: 38px; }
+  .kz__sum { padding: 8px 14px; gap: 6px; flex-direction: row; }
+  .kz__equation { font-size: 28px; }
+  .kz__cell { width: 16px; height: 16px; border-width: 2px; border-radius: 5px; }
+  .kz__cells { max-width: 200px; gap: 3px; }
+  .kz__actions { min-height: 0; gap: 12px; }
+  .kz__over { font-size: 40px; }
+  .kz__over img { width: 54px; height: 54px; }
+}

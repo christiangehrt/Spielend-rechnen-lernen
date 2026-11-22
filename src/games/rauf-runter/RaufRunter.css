@@ -60,3 +60,18 @@
   .rr-pile .ncard--lg .dots__frame { width: 104px; height: 42px; }
   .rr__deck-stack { width: 100px; height: 138px; }
 }
+@media (max-height: 500px) {
+  .rr { gap: 4px; padding-bottom: 6px; }
+  .rr-pile { min-width: 0; padding: 4px 8px 8px; gap: 4px; border-radius: 20px; }
+  .rr-pile__head { width: 44px; height: 30px; border-radius: 10px; }
+  .rr-pile__head svg { width: 24px; height: 24px; }
+  .rr-pile .ncard--lg, .rr-pile__start { width: 26vh; height: 34vh; }
+  .rr-pile .ncard--lg .ncard__value, .rr-pile__start { font-size: 12vh; }
+  .rr-pile .ncard--lg .dots { display: none; }
+  .rr__deck-stack { width: 18vh; height: 24vh; font-size: 7vh; }
+  .rr__handbar { padding-top: 14px; }
+  .rr__hand .ncard--md { width: 60px; height: 86px; }
+  .rr__hand .ncard--md .ncard__value { font-size: 30px; }
+  .rr__hand .ncard--md .dots__frame { width: 50px; height: 20px; }
+  .rr__dot { width: 18px; height: 18px; }
+}

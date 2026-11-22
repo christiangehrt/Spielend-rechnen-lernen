@@ -92,7 +92,6 @@ img { -webkit-user-drag: none; user-select: none; }
 }
 .btn:active:not(:disabled) { transform: translateY(4px); box-shadow: 0 1px 0 #d8d0bf; }
 .btn:disabled { opacity: 0.4; cursor: default; }
-.btn--icon { padding: 0; width: var(--touch); }
 .btn--big { min-height: 84px; min-width: 84px; font-size: 30px; border-radius: 26px; padding: 0 30px; }
 .btn--huge { min-height: 110px; min-width: 110px; border-radius: 32px; font-size: 36px; }
 .btn--primary { background: var(--c-green); color: #fff; box-shadow: 0 5px 0 var(--c-green-dark); }
@@ -105,6 +104,8 @@ img { -webkit-user-drag: none; user-select: none; }
 .btn--ghost:active:not(:disabled) { transform: scale(0.94); box-shadow: none; }
 .btn--selected { outline: 5px solid var(--c-blue); outline-offset: 2px; }
 .btn--pulse { animation: pulse 1.3s ease-in-out infinite; }
+.btn.btn--icon { padding: 0; width: var(--touch); }
+.btn svg { flex-shrink: 0; }
 
 /* ---------- Top bar ---------- */
 .topbar {
@@ -179,3 +180,13 @@ img { -webkit-user-drag: none; user-select: none; }
 .art--emoji { display: inline-grid; place-items: center; line-height: 1; }
 
 .loading { flex: 1; display: grid; place-items: center; font-size: 64px; }
+
+/* ---------- Compact mode for phones in landscape (short viewports) ---------- */
+@media (max-height: 500px) {
+  .topbar { min-height: 64px; padding: 4px 12px; gap: 8px; }
+  .btn--big { min-height: 64px; min-width: 64px; font-size: 24px; border-radius: 20px; }
+  .btn--huge { min-height: 76px; min-width: 76px; border-radius: 24px; font-size: 28px; }
+  .btn--huge svg { width: 40px; height: 40px; }
+  .overlay__card { padding: 16px 20px; border-radius: 24px; }
+  .overlay__row { margin-top: 12px; }
+}

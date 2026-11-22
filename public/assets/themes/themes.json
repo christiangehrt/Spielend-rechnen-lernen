@@ -1,9 +1,9 @@
 {
   "_comment": "Sticker album scenes. Swap the SVG files 1:1 to replace the backgrounds.",
   "themes": [
-    { "id": "jungle", "name": "Dschungel", "src": "assets/themes/jungle.svg", "art": "game.raupen-reihen", "color": "#3f9e4f" },
-    { "id": "space", "name": "Weltall", "src": "assets/themes/space.svg", "art": "ui.star", "color": "#3a2468" },
-    { "id": "ocean", "name": "Unterwasserwelt", "src": "assets/themes/ocean.svg", "art": "avatar.octopus", "color": "#1f6fb2" },
-    { "id": "farm", "name": "Bauernhof", "src": "assets/themes/farm.svg", "art": "avatar.dog", "color": "#d64545" }
+    { "id": "jungle", "name": "Dschungel", "src": "assets/themes/jungle.svg", "art": "theme.jungle", "color": "#3f9e4f" },
+    { "id": "space", "name": "Weltall", "src": "assets/themes/space.svg", "art": "theme.space", "color": "#3a2468" },
+    { "id": "ocean", "name": "Unterwasserwelt", "src": "assets/themes/ocean.svg", "art": "theme.ocean", "color": "#1f6fb2" },
+    { "id": "farm", "name": "Bauernhof", "src": "assets/themes/farm.svg", "art": "theme.farm", "color": "#d64545" }
   ]
 }

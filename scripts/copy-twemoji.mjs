@@ -79,6 +79,11 @@ const ART = {
   'ui.medal': ['1f3c5', '🏅'],
   'ui.hourglass': ['23f3', '⏳'],
   'ui.stack': ['1f4da', '📚'],
+  // album scenes
+  'theme.jungle': ['1f334', '🌴'],
+  'theme.space': ['1f680', '🚀'],
+  'theme.ocean': ['1f420', '🐠'],
+  'theme.farm': ['1f69c', '🚜'],
   // fruits (Blitz-Fünf)
   'fruit.strawberry': ['1f353', '🍓'],
   'fruit.banana': ['1f34c', '🍌'],

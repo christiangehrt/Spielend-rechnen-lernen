@@ -72,7 +72,11 @@ export interface GameModule<S = any, A = any> {
   reduce(state: S, action: A): S;
   canUndo(state: S): boolean;
   undoAction: A;
+  /** Show the undo button at all (default true). */
+  hasUndo?: boolean;
   /** Non-null once the round is over. */
   result(state: S): GameResult | null;
+  /** Pause before the result screen so the child can see the final move (default 700 ms). */
+  resultDelayMs?: number;
   View: ComponentType<GameViewProps<S, A>>;
 }

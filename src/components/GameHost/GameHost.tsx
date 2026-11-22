@@ -1,4 +1,4 @@
-import { Home, Volume2 } from 'lucide-react';
+import { Home, RotateCw, Smartphone, Volume2 } from 'lucide-react';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { audio } from '../../core/audio/AudioManager';
 import { navigate } from '../../core/router';
@@ -41,6 +41,15 @@ function LoadedGame({ mod, profileId }: { mod: GameModule; profileId: string }) 
   }, [session, gameId]);
 
   const result = useMemo(() => (state ? mod.result(state) : null), [mod, state]);
+  const [showResult, setShowResult] = useState(false);
+  useEffect(() => {
+    if (!result) {
+      setShowResult(false);
+      return;
+    }
+    const t = setTimeout(() => setShowResult(true), mod.resultDelayMs ?? 700);
+    return () => clearTimeout(t);
+  }, [result, mod.resultDelayMs]);
 
   // Auto-resume: persist after every state change (valid moves only change state).
   useEffect(() => {
@@ -87,12 +96,16 @@ function LoadedGame({ mod, profileId }: { mod: GameModule; profileId: string }) 
         <Button label="Erklärung anhören" icon size="big" onClick={() => void audio.say({ text: mod.meta.intro })}>
           <Volume2 size={36} strokeWidth={2.6} />
         </Button>
-        <UndoButton enabled={canUndo && !result?.won} onUndo={undo} />
+        {mod.hasUndo !== false && <UndoButton enabled={canUndo && !result?.won} onUndo={undo} />}
       </header>
       <main className="game__body play-surface">
         <View key={round} state={state} dispatch={dispatch} settings={settings} />
       </main>
-      {result && (
+      <div className="rotate-hint" aria-hidden="true">
+        <Smartphone size={90} strokeWidth={2} />
+        <RotateCw size={56} strokeWidth={2.6} />
+      </div>
+      {result && showResult && (
         <ResultFlow
           key={round}
           mod={mod}

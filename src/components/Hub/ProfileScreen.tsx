@@ -67,13 +67,13 @@ function CreateProfile({ firstRun, onCancel, onDone }: { firstRun: boolean; onCa
   const [name, setName] = useState('');
   return (
     <div className="screen profiles screen--scroll">
-      <header className="topbar">
-        {onCancel && (
+      {onCancel && (
+        <header className="topbar">
           <Button label="Zurück" icon size="big" onClick={onCancel}>
             <ArrowLeft size={36} strokeWidth={2.6} />
           </Button>
-        )}
-      </header>
+        </header>
+      )}
       <main className="create">
         {firstRun && (
           <div className="create__welcome">

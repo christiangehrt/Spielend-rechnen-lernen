@@ -150,7 +150,7 @@ export function RaufRunterView({ state, dispatch, settings }: GameViewProps<TheG
 
       {settings.showNumberLineHelper && (
         <div className="rr__helper">
-          <MiniNumberLine min={0} max={lineMax} markers={markers} defaultOpen={lineMax <= 20} />
+          <MiniNumberLine min={0} max={lineMax} markers={markers} defaultOpen={lineMax <= 20 && window.innerHeight > 600} />
         </div>
       )}
 

@@ -23,3 +23,14 @@
   30% { transform: rotate(-5deg); }
   40% { transform: rotate(0); }
 }
+
+/* Games are designed for landscape: ask small portrait phones to rotate. */
+.rotate-hint { display: none; }
+@media (orientation: portrait) and (max-width: 600px) {
+  .rotate-hint {
+    position: fixed; inset: 0; z-index: 45; display: flex; align-items: center; justify-content: center; gap: 16px;
+    background: rgba(255, 247, 232, .97); color: var(--c-blue);
+  }
+  .rotate-hint svg:first-child { animation: rotate-phone 2s ease-in-out infinite; }
+}
+@keyframes rotate-phone { 0%, 30% { transform: rotate(0); } 60%, 100% { transform: rotate(-90deg); } }
