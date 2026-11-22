@@ -64,7 +64,6 @@ const ART = {
   'ui.party': ['1f389', '🎉'],
   'ui.thinking': ['1f914', '🤔'],
   'ui.sleepy': ['1f634', '😴'],
-  'ui.cards': ['1f0cf', '🃏'],
   'ui.basket': ['1f9fa', '🧺'],
   'ui.magpie': ['1f426-200d-2b1b', '🐦‍⬛'],
   'ui.heart': ['2764', '❤️'],
@@ -79,6 +78,14 @@ const ART = {
   'ui.medal': ['1f3c5', '🏅'],
   'ui.hourglass': ['23f3', '⏳'],
   'ui.stack': ['1f4da', '📚'],
+  // Schlummer-Schloss cards
+  'card.wecker': ['23f0', '⏰'],
+  'card.dieb': ['1f99d', '🦝'],
+  'card.wachhund': ['1f415', '🐕'],
+  'card.schlaflied': ['1f3b6', '🎶'],
+  'card.trommel': ['1f941', '🥁'],
+  'card.clown': ['1f921', '🤡'],
+  'ui.zzz': ['1f4a4', '💤'],
   // album scenes
   'theme.jungle': ['1f334', '🌴'],
   'theme.space': ['1f680', '🚀'],
@@ -117,7 +124,13 @@ const copy = (code, dest) => {
   copyFileSync(file, dest);
 };
 
+// Hand-made artwork that lives in public/assets/art and is not copied from Twemoji.
+const CUSTOM = {
+  'ui.cards': ['ui-cards.svg', '🂠'],
+};
+
 const art = {};
+for (const [key, [file, emoji]] of Object.entries(CUSTOM)) art[key] = { src: `assets/art/${file}`, emoji };
 for (const [key, [code, emoji]] of Object.entries(ART)) {
   const name = `${key.replace('.', '-')}.svg`;
   copy(code, join(root, 'public', 'assets', 'art', name));

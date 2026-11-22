@@ -1,6 +1,7 @@
 import type { ComponentType } from 'react';
 import type { NumberRange, ProfileSettings } from './profile';
 import type { StrategyEventType } from './rewards';
+import type { BotLevel } from '../bots/bots';
 
 export type LearningGoal = 'addition' | 'zerlegung' | 'zahlenstrahl' | 'vergleichen' | 'blitzblick';
 
@@ -19,7 +20,10 @@ export interface PresetOption {
 
 export interface ModeOption {
   id: PlayMode;
+  /** Human players sharing the device. */
   players: number;
+  /** Computer opponents in this mode. */
+  bots?: number;
   art: string;
   speech: string;
 }
@@ -44,6 +48,8 @@ export interface GameSetup {
   seed: number;
   playerNames: string[];
   playerAvatars?: string[];
+  /** Difficulty of computer opponents (modes with bots). */
+  botLevel?: BotLevel;
 }
 
 export interface GameResult {

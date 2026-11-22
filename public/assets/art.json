@@ -1,6 +1,10 @@
 {
   "_comment": "Artwork manifest: key -> SVG file. Replace files 1:1 to swap artwork.",
   "art": {
+    "ui.cards": {
+      "src": "assets/art/ui-cards.svg",
+      "emoji": "🂠"
+    },
     "avatar.fox": {
       "src": "assets/art/avatar-fox.svg",
       "emoji": "🦊"
@@ -165,10 +169,6 @@
       "src": "assets/art/ui-sleepy.svg",
       "emoji": "😴"
     },
-    "ui.cards": {
-      "src": "assets/art/ui-cards.svg",
-      "emoji": "🃏"
-    },
     "ui.basket": {
       "src": "assets/art/ui-basket.svg",
       "emoji": "🧺"
@@ -224,6 +224,34 @@
     "ui.stack": {
       "src": "assets/art/ui-stack.svg",
       "emoji": "📚"
+    },
+    "card.wecker": {
+      "src": "assets/art/card-wecker.svg",
+      "emoji": "⏰"
+    },
+    "card.dieb": {
+      "src": "assets/art/card-dieb.svg",
+      "emoji": "🦝"
+    },
+    "card.wachhund": {
+      "src": "assets/art/card-wachhund.svg",
+      "emoji": "🐕"
+    },
+    "card.schlaflied": {
+      "src": "assets/art/card-schlaflied.svg",
+      "emoji": "🎶"
+    },
+    "card.trommel": {
+      "src": "assets/art/card-trommel.svg",
+      "emoji": "🥁"
+    },
+    "card.clown": {
+      "src": "assets/art/card-clown.svg",
+      "emoji": "🤡"
+    },
+    "ui.zzz": {
+      "src": "assets/art/ui-zzz.svg",
+      "emoji": "💤"
     },
     "theme.jungle": {
       "src": "assets/art/theme-jungle.svg",

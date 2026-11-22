@@ -7,6 +7,8 @@
 .lobby__group { display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; }
 .lobby__choice { min-height: 84px; min-width: 120px; flex-direction: column; gap: 2px; font-size: 22px; padding: 8px 18px; }
 .lobby__choice--profi { background: #f3efff; }
+.lobby__choice--bot { min-width: 96px; }
+.lobby__botpair { display: inline-flex; gap: 2px; }
 .lobby__resume { display: flex; align-items: center; gap: 16px; }
 @media (max-height: 600px) {
   .lobby__art { width: 140px; height: 140px; }

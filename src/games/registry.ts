@@ -1,5 +1,9 @@
 import type { GameMeta, GameModule } from '../core/types/game';
 import { meta as raufRunter } from './rauf-runter/meta';
+import { meta as raupenReihen } from './raupen-reihen/meta';
+import { meta as nachbarReihe } from './nachbar-reihe/meta';
+import { meta as blitzFuenf } from './blitz-fuenf/meta';
+import { meta as schlummerSchloss } from './schlummer-schloss/meta';
 import { meta as klappenZu } from './klappen-zu/meta';
 import { meta as verliebteZahlen } from './verliebte-zahlen/meta';
 import { meta as zahlenstrahlHuepfen } from './zahlenstrahl-huepfen/meta';
@@ -7,52 +11,18 @@ import { meta as zahlenDetektiv } from './zahlen-detektiv/meta';
 
 export interface RegistryEntry {
   meta: GameMeta;
-  /** Lazy module loader; undefined while the module is not built yet (later roadmap phase). */
+  /** Lazy module loader (code-split chunk); an entry without loader shows a locked "coming soon" tile. */
   load?: () => Promise<{ default: GameModule }>;
 }
-
-const planned = (meta: GameMeta): RegistryEntry => ({ meta });
 
 /** Central registration of all 9 modules (order = hub order). */
 export const GAMES: RegistryEntry[] = [
   { meta: raufRunter, load: () => import('./rauf-runter') },
-  planned({
-    id: 'raupen-reihen',
-    title: 'Raupen-Reihen',
-    art: 'game.raupen-reihen',
-    color: '#7cb342',
-    learningGoals: ['vergleichen', 'zahlenstrahl'],
-    intro: 'Raupen-Reihen kommt bald.',
-    phase: 3,
-  }),
-  planned({
-    id: 'nachbar-reihe',
-    title: 'Nachbar-Reihe',
-    art: 'game.nachbar-reihe',
-    color: '#ef476f',
-    learningGoals: ['zahlenstrahl', 'vergleichen'],
-    intro: 'Nachbar-Reihe kommt bald.',
-    phase: 3,
-  }),
+  { meta: raupenReihen, load: () => import('./raupen-reihen') },
+  { meta: nachbarReihe, load: () => import('./nachbar-reihe') },
   { meta: klappenZu, load: () => import('./klappen-zu') },
-  planned({
-    id: 'schlummer-schloss',
-    title: 'Schlummer-Schloss',
-    art: 'game.schlummer-schloss',
-    color: '#7b5cd6',
-    learningGoals: ['addition'],
-    intro: 'Schlummer-Schloss kommt bald.',
-    phase: 3,
-  }),
-  planned({
-    id: 'blitz-fuenf',
-    title: 'Blitz-Fünf',
-    art: 'game.blitz-fuenf',
-    color: '#f4b400',
-    learningGoals: ['blitzblick', 'zerlegung'],
-    intro: 'Blitz-Fünf kommt bald.',
-    phase: 3,
-  }),
+  { meta: schlummerSchloss, load: () => import('./schlummer-schloss') },
+  { meta: blitzFuenf, load: () => import('./blitz-fuenf') },
   { meta: verliebteZahlen, load: () => import('./verliebte-zahlen') },
   { meta: zahlenstrahlHuepfen, load: () => import('./zahlenstrahl-huepfen') },
   { meta: zahlenDetektiv, load: () => import('./zahlen-detektiv') },

@@ -7,6 +7,7 @@ import { useActiveProfile } from '../../core/storage/appStore';
 import { readJSON, writeJSON } from '../../core/storage/kv';
 import { clearSession, loadSession, saveSession } from '../../core/storage/sessions';
 import type { GameModule, GameSetup, PlayMode } from '../../core/types/game';
+import { BOT_LEVELS, type BotLevel } from '../../core/bots/bots';
 import type { PlayerProfile } from '../../core/types/profile';
 import { getEntry } from '../../games/registry';
 import { useGameModule } from '../../games/useGameModule';
@@ -29,6 +30,7 @@ export function Lobby({ gameId }: { gameId: string }) {
 interface LobbyChoice {
   presetId: string;
   mode: PlayMode;
+  botLevel?: BotLevel;
 }
 
 const choiceKey = (profileId: string, gameId: string) => `lobby_${profileId}_${gameId}`;
@@ -43,6 +45,7 @@ function LobbyInner({ mod, profile }: { mod: GameModule; profile: PlayerProfile 
     return {
       presetId: presetOk ? stored!.presetId : mod.defaultPresetId(profile.settings.defaultNumberRange),
       mode: modeOk ? stored!.mode : mod.modes[0].id,
+      botLevel: stored?.botLevel ?? 'anfaenger',
     };
   });
 
@@ -60,6 +63,7 @@ function LobbyInner({ mod, profile }: { mod: GameModule; profile: PlayerProfile 
       seed: newSeed(),
       playerNames: names.slice(0, mode.players),
       playerAvatars: [profile.avatarId, 'avatar.bear', 'avatar.owl', 'avatar.cat'].slice(0, mode.players),
+      botLevel: choice.botLevel ?? 'anfaenger',
     };
     clearSession(profile.id, gameId);
     saveSession({ gameId, profileId: profile.id, stateVersion: mod.stateVersion, setup, state: mod.create(setup) });
@@ -122,6 +126,26 @@ function LobbyInner({ mod, profile }: { mod: GameModule; profile: PlayerProfile 
                   onClick={() => setChoice((c) => ({ ...c, mode: m.id }))}
                 >
                   <Art name={m.art} size={44} />
+                </Button>
+              ))}
+            </div>
+          )}
+
+          {(mod.modes.find((m) => m.id === choice.mode)?.bots ?? 0) > 0 && (
+            <div className="lobby__group" role="radiogroup" aria-label="Roboter-Stärke">
+              {BOT_LEVELS.map((b) => (
+                <Button
+                  key={b.id}
+                  label={b.speech}
+                  speak
+                  selected={(choice.botLevel ?? 'anfaenger') === b.id}
+                  className="lobby__choice lobby__choice--bot"
+                  onClick={() => setChoice((c) => ({ ...c, botLevel: b.id }))}
+                >
+                  <span className="lobby__botpair">
+                    <Art name="mode.bot" size={30} />
+                    <Art name={b.art} size={30} />
+                  </span>
                 </Button>
               ))}
             </div>
