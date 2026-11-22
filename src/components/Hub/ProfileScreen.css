@@ -1,0 +1,27 @@
+.profiles__list { display: flex; flex-wrap: wrap; gap: 24px; justify-content: center; align-content: center; flex: 1; padding: 24px; }
+.profiles__card {
+  width: 200px; min-height: 220px; border: 0; border-radius: 32px; background: #fff; box-shadow: var(--shadow);
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; cursor: pointer;
+}
+.profiles__card--active { outline: 6px solid var(--c-blue); }
+.profiles__card--add { color: #9aa1b8; background: #f4efe4; border: 4px dashed #d8d0bf; box-shadow: none; }
+.profiles__name { font-family: var(--font-num); font-size: 26px; }
+.profiles__stars { display: inline-flex; align-items: center; gap: 6px; font-family: var(--font-num); font-size: 22px; color: var(--c-muted); }
+.create { display: flex; flex-direction: column; align-items: center; gap: 22px; padding: 0 16px 24px; }
+.create__welcome { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; justify-content: center; }
+.create__welcome h1 { width: 100%; text-align: center; margin: 6px 0 0; font-family: var(--font-num); font-size: 38px; font-weight: 600; }
+.create__avatars { display: grid; grid-template-columns: repeat(7, 1fr); gap: 12px; }
+.create__avatar { width: 96px; height: 96px; border-radius: 50%; border: 5px solid transparent; background: #fff; box-shadow: var(--shadow); cursor: pointer; display: grid; place-items: center; transition: transform .15s; }
+.create__avatar--on { border-color: var(--c-blue); transform: scale(1.1); }
+.create__name input { font: 700 22px var(--font-ui); padding: 14px 20px; border-radius: 18px; border: 3px solid var(--c-line); width: 280px; max-width: 80vw; background: #fff; color: var(--c-ink); }
+@media (max-width: 760px) {
+  .create__avatars { grid-template-columns: repeat(5, 1fr); }
+  .create__avatar { width: 72px; height: 72px; }
+  .create__avatar img { width: 54px; height: 54px; }
+}
+@media (max-height: 600px) {
+  .create__avatar { width: 76px; height: 76px; }
+  .create__avatar img { width: 56px; height: 56px; }
+  .create__welcome img { width: 44px; height: 44px; }
+  .create__welcome h1 { font-size: 28px; }
+}

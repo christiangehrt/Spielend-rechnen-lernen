@@ -1,0 +1,16 @@
+.lobby { background: radial-gradient(circle at 20% 30%, color-mix(in srgb, var(--game-color) 18%, transparent), transparent 60%); }
+.lobby__main { flex: 1; min-height: 0; display: flex; align-items: center; justify-content: center; gap: 48px; padding: 0 24px 24px; flex-wrap: wrap; overflow-y: auto; }
+.lobby__hero { display: flex; flex-direction: column; align-items: center; gap: 14px; }
+.lobby__art { width: 210px; height: 210px; border-radius: 48px; background: #fff; display: grid; place-items: center; box-shadow: var(--shadow); border: 6px solid var(--game-color); }
+.lobby__title { margin: 0; font-family: var(--font-num); font-size: 40px; font-weight: 600; text-align: center; }
+.lobby__options { display: flex; flex-direction: column; align-items: center; gap: 22px; }
+.lobby__group { display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; }
+.lobby__choice { min-height: 84px; min-width: 120px; flex-direction: column; gap: 2px; font-size: 22px; padding: 8px 18px; }
+.lobby__choice--profi { background: #f3efff; }
+.lobby__resume { display: flex; align-items: center; gap: 16px; }
+@media (max-height: 600px) {
+  .lobby__art { width: 140px; height: 140px; }
+  .lobby__art img { width: 100px; height: 100px; }
+  .lobby__title { font-size: 30px; }
+  .lobby__main { gap: 24px; }
+}

@@ -1,0 +1,36 @@
+.dots { display: inline-flex; gap: 3px; align-items: center; justify-content: center; flex-wrap: nowrap; }
+.dots__frame { display: block; }
+.dots--stack { flex-direction: column; gap: 2px; }
+.dots__grid { fill: #fff; stroke: #b9c2d6; stroke-width: 1.2; }
+.dots__line { stroke: #d5dbe8; stroke-width: 1; }
+.dots__dot { fill: #ef476f; }
+.dots__dot--alt { fill: #2f6fde; }
+.dots--big { gap: 6px; }
+.dots__tens { display: inline-flex; gap: 3px; align-items: stretch; }
+.dots__bar { width: 7px; border-radius: 3px; background: repeating-linear-gradient(#ef476f 0 8%, #fff 8% 10%); outline: 1px solid #b9c2d6; }
+.dots__bar--alt { background: repeating-linear-gradient(#2f6fde 0 8%, #fff 8% 10%); }
+
+.mnl { display: flex; align-items: center; gap: 10px; width: 100%; min-height: 56px; }
+.mnl__toggle {
+  flex: none; width: 56px; height: 56px; border-radius: 16px; border: 3px solid #d5dbe8;
+  background: #fff; color: #5a6380; display: grid; place-items: center; cursor: pointer;
+}
+.mnl--open .mnl__toggle { border-color: #2f6fde; color: #2f6fde; background: #eaf1ff; }
+.mnl__track { position: relative; flex: 1; height: 56px; margin: 0 18px; }
+.mnl__axis { position: absolute; left: 0; right: 0; top: 18px; height: 4px; background: #5a6380; border-radius: 2px; }
+.mnl__tick-wrap { position: absolute; top: 0; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; }
+.mnl__tick { width: 2px; height: 14px; margin-top: 13px; background: #5a6380; }
+.mnl__tick--five { height: 20px; margin-top: 10px; width: 3px; }
+.mnl__tick--ten { height: 26px; margin-top: 7px; width: 4px; background: #2b2d42; }
+.mnl__num { font-family: var(--font-num); font-size: 13px; color: #8a92ab; line-height: 1; margin-top: 2px; }
+.mnl__num--strong { color: #2b2d42; font-weight: 600; font-size: 15px; }
+.mnl__marker {
+  position: absolute; top: -6px; transform: translateX(-50%); min-width: 22px; height: 22px; padding: 0 5px;
+  border-radius: 11px; border: 3px solid #fff; box-shadow: 0 2px 4px rgba(0,0,0,.25);
+  font: 600 12px/16px var(--font-num); color: #fff; text-align: center;
+}
+.mnl__marker--up { background: var(--c-green); }
+.mnl__marker--down { background: var(--c-orange); }
+.mnl__marker--select { background: var(--c-blue); top: -10px; min-width: 26px; height: 26px; line-height: 20px; }
+.mnl__marker--gold { background: var(--c-gold); }
+.mnl__marker--neutral { background: #8a92ab; }

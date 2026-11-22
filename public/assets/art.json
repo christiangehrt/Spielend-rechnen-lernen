@@ -1,0 +1,245 @@
+{
+  "_comment": "Artwork manifest: key -> SVG file. Replace files 1:1 to swap artwork.",
+  "art": {
+    "avatar.fox": {
+      "src": "assets/art/avatar-fox.svg",
+      "emoji": "🦊"
+    },
+    "avatar.cat": {
+      "src": "assets/art/avatar-cat.svg",
+      "emoji": "🐱"
+    },
+    "avatar.dog": {
+      "src": "assets/art/avatar-dog.svg",
+      "emoji": "🐶"
+    },
+    "avatar.panda": {
+      "src": "assets/art/avatar-panda.svg",
+      "emoji": "🐼"
+    },
+    "avatar.lion": {
+      "src": "assets/art/avatar-lion.svg",
+      "emoji": "🦁"
+    },
+    "avatar.unicorn": {
+      "src": "assets/art/avatar-unicorn.svg",
+      "emoji": "🦄"
+    },
+    "avatar.frog": {
+      "src": "assets/art/avatar-frog.svg",
+      "emoji": "🐸"
+    },
+    "avatar.owl": {
+      "src": "assets/art/avatar-owl.svg",
+      "emoji": "🦉"
+    },
+    "avatar.rabbit": {
+      "src": "assets/art/avatar-rabbit.svg",
+      "emoji": "🐰"
+    },
+    "avatar.bear": {
+      "src": "assets/art/avatar-bear.svg",
+      "emoji": "🐻"
+    },
+    "avatar.penguin": {
+      "src": "assets/art/avatar-penguin.svg",
+      "emoji": "🐧"
+    },
+    "avatar.dino": {
+      "src": "assets/art/avatar-dino.svg",
+      "emoji": "🦕"
+    },
+    "avatar.octopus": {
+      "src": "assets/art/avatar-octopus.svg",
+      "emoji": "🐙"
+    },
+    "avatar.tiger": {
+      "src": "assets/art/avatar-tiger.svg",
+      "emoji": "🐯"
+    },
+    "game.rauf-runter": {
+      "src": "assets/art/game-rauf-runter.svg",
+      "emoji": "🪜"
+    },
+    "game.raupen-reihen": {
+      "src": "assets/art/game-raupen-reihen.svg",
+      "emoji": "🐛"
+    },
+    "game.nachbar-reihe": {
+      "src": "assets/art/game-nachbar-reihe.svg",
+      "emoji": "🏘️"
+    },
+    "game.klappen-zu": {
+      "src": "assets/art/game-klappen-zu.svg",
+      "emoji": "🎲"
+    },
+    "game.schlummer-schloss": {
+      "src": "assets/art/game-schlummer-schloss.svg",
+      "emoji": "🏰"
+    },
+    "game.blitz-fuenf": {
+      "src": "assets/art/game-blitz-fuenf.svg",
+      "emoji": "⚡"
+    },
+    "game.verliebte-zahlen": {
+      "src": "assets/art/game-verliebte-zahlen.svg",
+      "emoji": "💞"
+    },
+    "game.zahlenstrahl-huepfen": {
+      "src": "assets/art/game-zahlenstrahl-huepfen.svg",
+      "emoji": "🐸"
+    },
+    "game.zahlen-detektiv": {
+      "src": "assets/art/game-zahlen-detektiv.svg",
+      "emoji": "🔎"
+    },
+    "level.junior": {
+      "src": "assets/art/level-junior.svg",
+      "emoji": "🐣"
+    },
+    "level.mittel": {
+      "src": "assets/art/level-mittel.svg",
+      "emoji": "🐥"
+    },
+    "level.profi": {
+      "src": "assets/art/level-profi.svg",
+      "emoji": "🦉"
+    },
+    "mode.solo": {
+      "src": "assets/art/mode-solo.svg",
+      "emoji": "🧒"
+    },
+    "mode.coop": {
+      "src": "assets/art/mode-coop.svg",
+      "emoji": "🤝"
+    },
+    "mode.bot": {
+      "src": "assets/art/mode-bot.svg",
+      "emoji": "🤖"
+    },
+    "mode.versus": {
+      "src": "assets/art/mode-versus.svg",
+      "emoji": "⚔️"
+    },
+    "goal.addition": {
+      "src": "assets/art/goal-addition.svg",
+      "emoji": "➕"
+    },
+    "goal.zerlegung": {
+      "src": "assets/art/goal-zerlegung.svg",
+      "emoji": "🧩"
+    },
+    "goal.zahlenstrahl": {
+      "src": "assets/art/goal-zahlenstrahl.svg",
+      "emoji": "📏"
+    },
+    "goal.vergleichen": {
+      "src": "assets/art/goal-vergleichen.svg",
+      "emoji": "⚖️"
+    },
+    "goal.blitzblick": {
+      "src": "assets/art/goal-blitzblick.svg",
+      "emoji": "👀"
+    },
+    "ui.star": {
+      "src": "assets/art/ui-star.svg",
+      "emoji": "⭐"
+    },
+    "ui.gift": {
+      "src": "assets/art/ui-gift.svg",
+      "emoji": "🎁"
+    },
+    "ui.trophy": {
+      "src": "assets/art/ui-trophy.svg",
+      "emoji": "🏆"
+    },
+    "ui.party": {
+      "src": "assets/art/ui-party.svg",
+      "emoji": "🎉"
+    },
+    "ui.thinking": {
+      "src": "assets/art/ui-thinking.svg",
+      "emoji": "🤔"
+    },
+    "ui.sleepy": {
+      "src": "assets/art/ui-sleepy.svg",
+      "emoji": "😴"
+    },
+    "ui.cards": {
+      "src": "assets/art/ui-cards.svg",
+      "emoji": "🃏"
+    },
+    "ui.basket": {
+      "src": "assets/art/ui-basket.svg",
+      "emoji": "🧺"
+    },
+    "ui.magpie": {
+      "src": "assets/art/ui-magpie.svg",
+      "emoji": "🐦‍⬛"
+    },
+    "ui.heart": {
+      "src": "assets/art/ui-heart.svg",
+      "emoji": "❤️"
+    },
+    "ui.check": {
+      "src": "assets/art/ui-check.svg",
+      "emoji": "✅"
+    },
+    "ui.cross": {
+      "src": "assets/art/ui-cross.svg",
+      "emoji": "❌"
+    },
+    "ui.question": {
+      "src": "assets/art/ui-question.svg",
+      "emoji": "❓"
+    },
+    "ui.target": {
+      "src": "assets/art/ui-target.svg",
+      "emoji": "🎯"
+    },
+    "ui.footprints": {
+      "src": "assets/art/ui-footprints.svg",
+      "emoji": "👣"
+    },
+    "ui.album": {
+      "src": "assets/art/ui-album.svg",
+      "emoji": "📖"
+    },
+    "ui.dice": {
+      "src": "assets/art/ui-dice.svg",
+      "emoji": "🎲"
+    },
+    "ui.box": {
+      "src": "assets/art/ui-box.svg",
+      "emoji": "📦"
+    },
+    "ui.medal": {
+      "src": "assets/art/ui-medal.svg",
+      "emoji": "🏅"
+    },
+    "ui.hourglass": {
+      "src": "assets/art/ui-hourglass.svg",
+      "emoji": "⏳"
+    },
+    "ui.stack": {
+      "src": "assets/art/ui-stack.svg",
+      "emoji": "📚"
+    },
+    "fruit.strawberry": {
+      "src": "assets/art/fruit-strawberry.svg",
+      "emoji": "🍓"
+    },
+    "fruit.banana": {
+      "src": "assets/art/fruit-banana.svg",
+      "emoji": "🍌"
+    },
+    "fruit.pear": {
+      "src": "assets/art/fruit-pear.svg",
+      "emoji": "🍐"
+    },
+    "fruit.grapes": {
+      "src": "assets/art/fruit-grapes.svg",
+      "emoji": "🍇"
+    }
+  }
+}

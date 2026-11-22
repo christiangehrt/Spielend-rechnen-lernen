@@ -1,0 +1,16 @@
+export const AVATARS = [
+  'avatar.fox',
+  'avatar.cat',
+  'avatar.dog',
+  'avatar.panda',
+  'avatar.lion',
+  'avatar.unicorn',
+  'avatar.frog',
+  'avatar.owl',
+  'avatar.rabbit',
+  'avatar.bear',
+  'avatar.penguin',
+  'avatar.dino',
+  'avatar.octopus',
+  'avatar.tiger',
+];

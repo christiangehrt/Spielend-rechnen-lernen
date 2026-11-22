@@ -1,0 +1,40 @@
+.parent { font-family: var(--font-ui); font-weight: 600; }
+.parent__bar h1 { margin: 0; font-family: var(--font-num); font-size: 30px; font-weight: 600; }
+.parent__gate { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 18px; font-size: 20px; color: var(--c-muted); }
+.parent__gate .hold-btn { transform: scale(1.6); }
+.parent__content { display: grid; gap: 18px; padding: 0 24px 32px; max-width: 980px; margin: 0 auto; width: 100%; }
+.parent__section { background: #fff; border-radius: 22px; padding: 18px 22px; box-shadow: var(--shadow); }
+.parent__section h2 { margin: 0 0 12px; font-family: var(--font-num); font-size: 22px; font-weight: 600; }
+.parent__profiles { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 12px; }
+.parent__profile { display: inline-flex; align-items: center; gap: 8px; min-height: 56px; padding: 6px 14px; border-radius: 16px; border: 3px solid var(--c-line); background: #fff; cursor: pointer; font-size: 18px; }
+.parent__profile--on { border-color: var(--c-blue); background: #eaf1ff; }
+.parent__field { display: flex; align-items: center; gap: 14px; margin: 10px 0; flex-wrap: wrap; }
+.parent__field > span { min-width: 180px; color: var(--c-muted); }
+.parent__field input[type='text'] { font: 700 18px var(--font-ui); padding: 10px 14px; border-radius: 12px; border: 3px solid var(--c-line); min-width: 240px; color: var(--c-ink); }
+.parent__avatars { display: flex; gap: 6px; flex-wrap: wrap; }
+.parent__avatar { width: 56px; height: 56px; border-radius: 50%; border: 3px solid transparent; background: #f6f2e9; cursor: pointer; display: grid; place-items: center; }
+.parent__avatar--on { border-color: var(--c-blue); background: #eaf1ff; }
+.parent__seg { display: inline-flex; border-radius: 14px; overflow: hidden; border: 3px solid var(--c-line); }
+.parent__seg button { min-height: 52px; padding: 0 16px; border: 0; background: #fff; cursor: pointer; font-size: 17px; }
+.parent__seg button.on { background: var(--c-blue); color: #fff; }
+.parent__toggle { display: flex; align-items: center; gap: 14px; min-height: 60px; cursor: pointer; font-size: 18px; }
+.parent__toggle small { display: block; color: var(--c-muted); font-size: 14px; font-weight: 600; }
+.parent__toggle input { position: absolute; opacity: 0; pointer-events: none; }
+.parent__switch { flex: none; width: 62px; height: 36px; border-radius: 18px; background: #d8d0bf; position: relative; transition: background .2s; }
+.parent__switch::after { content: ''; position: absolute; top: 4px; left: 4px; width: 28px; height: 28px; border-radius: 50%; background: #fff; transition: transform .2s; box-shadow: 0 2px 4px rgba(0,0,0,.2); }
+.parent__toggle input:checked + .parent__switch { background: var(--c-green); }
+.parent__toggle input:checked + .parent__switch::after { transform: translateX(26px); }
+.parent__toggle input:focus-visible + .parent__switch { outline: 3px solid var(--c-blue); outline-offset: 2px; }
+.parent__note { color: var(--c-muted); font-size: 15px; line-height: 1.45; margin: 10px 0 0; }
+.parent__actions { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 12px; }
+.parent__btn { display: inline-flex; align-items: center; gap: 10px; min-height: 56px; padding: 0 18px; border-radius: 16px; border: 0; background: var(--c-blue); color: #fff; cursor: pointer; font-size: 17px; }
+.parent__btn--danger { background: var(--c-red); }
+.parent__link { border: 0; background: none; color: var(--c-blue); text-decoration: underline; cursor: pointer; padding: 0; font-size: inherit; }
+.parent__msg { padding: 10px 14px; border-radius: 12px; margin: 12px 0 0; }
+.parent__msg.ok { background: #e6f6ea; color: var(--c-green-dark); }
+.parent__msg.err { background: #fde6ec; color: #b0234a; }
+.parent__stats { width: 100%; border-collapse: collapse; font-size: 16px; }
+.parent__stats th, .parent__stats td { text-align: left; padding: 8px 6px; border-bottom: 2px solid #f1ece1; }
+.parent__stats td:first-child { display: flex; align-items: center; gap: 8px; }
+.parent__stats th { color: var(--c-muted); font-size: 14px; }
+.parent a { color: var(--c-blue); }

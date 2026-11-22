@@ -1,0 +1,7 @@
+.starprog { display: inline-flex; align-items: center; gap: 10px; background: #fff; border-radius: 999px; padding: 6px 14px; box-shadow: var(--shadow); }
+.starprog__total { display: inline-flex; align-items: center; gap: 6px; font-family: var(--font-num); font-size: 26px; font-weight: 600; padding-right: 6px; border-right: 3px solid var(--c-line); }
+.starprog__slots { display: inline-flex; gap: 4px; }
+.starprog__slot { width: 32px; height: 32px; border-radius: 50%; background: #f1ece1; display: grid; place-items: center; }
+.starprog__slot--on { background: var(--c-gold-soft); animation: pop-in 0.3s ease; }
+.starprog--compact .starprog__slot { width: 26px; height: 26px; }
+.starprog--compact .starprog__total { font-size: 22px; }

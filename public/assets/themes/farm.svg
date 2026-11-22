@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1000" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#8fd3ff"/><stop offset="1" stop-color="#dff4ff"/>
+    </linearGradient>
+  </defs>
+  <rect width="1600" height="1000" fill="url(#sky)"/>
+  <circle cx="1400" cy="150" r="80" fill="#ffd84d"/>
+  <g fill="#ffffff">
+    <ellipse cx="300" cy="150" rx="90" ry="40"/><ellipse cx="370" cy="130" rx="70" ry="45"/><ellipse cx="240" cy="165" rx="60" ry="30"/>
+    <ellipse cx="900" cy="110" rx="80" ry="35"/><ellipse cx="960" cy="95" rx="60" ry="38"/>
+  </g>
+  <path d="M0 600 Q300 480 640 580 T1300 540 T1600 560 V1000 H0Z" fill="#9bd36a"/>
+  <path d="M0 720 Q400 640 800 700 T1600 690 V1000 H0Z" fill="#7cc04f"/>
+  <g transform="translate(1120 420)">
+    <rect x="0" y="80" width="260" height="190" fill="#d64545"/>
+    <path d="M-20 90 L130 0 L280 90Z" fill="#a83232"/>
+    <rect x="95" y="160" width="70" height="110" fill="#fff4e0"/>
+    <path d="M95 160 L165 270 M165 160 L95 270" stroke="#d64545" stroke-width="8"/>
+  </g>
+  <g stroke="#b7834d" stroke-width="12" stroke-linecap="round">
+    <path d="M0 830 H1600"/><path d="M0 880 H1600"/>
+    <path d="M60 800 V920"/><path d="M260 800 V920"/><path d="M460 800 V920"/><path d="M660 800 V920"/>
+    <path d="M860 800 V920"/><path d="M1060 800 V920"/><path d="M1260 800 V920"/><path d="M1460 800 V920"/>
+  </g>
+</svg>

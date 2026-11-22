@@ -1,0 +1,205 @@
+{
+  "_comment": "Sticker manifest. New stickers can be added here without code changes.",
+  "stickers": [
+    {
+      "id": "jungle-monkey",
+      "src": "assets/stickers/jungle-monkey.svg",
+      "theme": "jungle"
+    },
+    {
+      "id": "jungle-parrot",
+      "src": "assets/stickers/jungle-parrot.svg",
+      "theme": "jungle"
+    },
+    {
+      "id": "jungle-snake",
+      "src": "assets/stickers/jungle-snake.svg",
+      "theme": "jungle"
+    },
+    {
+      "id": "jungle-elephant",
+      "src": "assets/stickers/jungle-elephant.svg",
+      "theme": "jungle"
+    },
+    {
+      "id": "jungle-giraffe",
+      "src": "assets/stickers/jungle-giraffe.svg",
+      "theme": "jungle"
+    },
+    {
+      "id": "jungle-crocodile",
+      "src": "assets/stickers/jungle-crocodile.svg",
+      "theme": "jungle"
+    },
+    {
+      "id": "jungle-palm",
+      "src": "assets/stickers/jungle-palm.svg",
+      "theme": "jungle"
+    },
+    {
+      "id": "jungle-butterfly",
+      "src": "assets/stickers/jungle-butterfly.svg",
+      "theme": "jungle"
+    },
+    {
+      "id": "jungle-leopard",
+      "src": "assets/stickers/jungle-leopard.svg",
+      "theme": "jungle"
+    },
+    {
+      "id": "jungle-sloth",
+      "src": "assets/stickers/jungle-sloth.svg",
+      "theme": "jungle"
+    },
+    {
+      "id": "space-rocket",
+      "src": "assets/stickers/space-rocket.svg",
+      "theme": "space"
+    },
+    {
+      "id": "space-ufo",
+      "src": "assets/stickers/space-ufo.svg",
+      "theme": "space"
+    },
+    {
+      "id": "space-earth",
+      "src": "assets/stickers/space-earth.svg",
+      "theme": "space"
+    },
+    {
+      "id": "space-saturn",
+      "src": "assets/stickers/space-saturn.svg",
+      "theme": "space"
+    },
+    {
+      "id": "space-moon",
+      "src": "assets/stickers/space-moon.svg",
+      "theme": "space"
+    },
+    {
+      "id": "space-star",
+      "src": "assets/stickers/space-star.svg",
+      "theme": "space"
+    },
+    {
+      "id": "space-alien",
+      "src": "assets/stickers/space-alien.svg",
+      "theme": "space"
+    },
+    {
+      "id": "space-astronaut",
+      "src": "assets/stickers/space-astronaut.svg",
+      "theme": "space"
+    },
+    {
+      "id": "space-comet",
+      "src": "assets/stickers/space-comet.svg",
+      "theme": "space"
+    },
+    {
+      "id": "space-satellite",
+      "src": "assets/stickers/space-satellite.svg",
+      "theme": "space"
+    },
+    {
+      "id": "ocean-fish",
+      "src": "assets/stickers/ocean-fish.svg",
+      "theme": "ocean"
+    },
+    {
+      "id": "ocean-octopus",
+      "src": "assets/stickers/ocean-octopus.svg",
+      "theme": "ocean"
+    },
+    {
+      "id": "ocean-dolphin",
+      "src": "assets/stickers/ocean-dolphin.svg",
+      "theme": "ocean"
+    },
+    {
+      "id": "ocean-whale",
+      "src": "assets/stickers/ocean-whale.svg",
+      "theme": "ocean"
+    },
+    {
+      "id": "ocean-crab",
+      "src": "assets/stickers/ocean-crab.svg",
+      "theme": "ocean"
+    },
+    {
+      "id": "ocean-turtle",
+      "src": "assets/stickers/ocean-turtle.svg",
+      "theme": "ocean"
+    },
+    {
+      "id": "ocean-squid",
+      "src": "assets/stickers/ocean-squid.svg",
+      "theme": "ocean"
+    },
+    {
+      "id": "ocean-blowfish",
+      "src": "assets/stickers/ocean-blowfish.svg",
+      "theme": "ocean"
+    },
+    {
+      "id": "ocean-jellyfish",
+      "src": "assets/stickers/ocean-jellyfish.svg",
+      "theme": "ocean"
+    },
+    {
+      "id": "ocean-shell",
+      "src": "assets/stickers/ocean-shell.svg",
+      "theme": "ocean"
+    },
+    {
+      "id": "farm-cow",
+      "src": "assets/stickers/farm-cow.svg",
+      "theme": "farm"
+    },
+    {
+      "id": "farm-pig",
+      "src": "assets/stickers/farm-pig.svg",
+      "theme": "farm"
+    },
+    {
+      "id": "farm-sheep",
+      "src": "assets/stickers/farm-sheep.svg",
+      "theme": "farm"
+    },
+    {
+      "id": "farm-rooster",
+      "src": "assets/stickers/farm-rooster.svg",
+      "theme": "farm"
+    },
+    {
+      "id": "farm-horse",
+      "src": "assets/stickers/farm-horse.svg",
+      "theme": "farm"
+    },
+    {
+      "id": "farm-tractor",
+      "src": "assets/stickers/farm-tractor.svg",
+      "theme": "farm"
+    },
+    {
+      "id": "farm-chick",
+      "src": "assets/stickers/farm-chick.svg",
+      "theme": "farm"
+    },
+    {
+      "id": "farm-sunflower",
+      "src": "assets/stickers/farm-sunflower.svg",
+      "theme": "farm"
+    },
+    {
+      "id": "farm-cat",
+      "src": "assets/stickers/farm-cat.svg",
+      "theme": "farm"
+    },
+    {
+      "id": "farm-duck",
+      "src": "assets/stickers/farm-duck.svg",
+      "theme": "farm"
+    }
+  ]
+}

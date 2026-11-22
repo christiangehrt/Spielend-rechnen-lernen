@@ -1,0 +1,28 @@
+.album { min-height: 0; }
+.album__count { display: inline-flex; align-items: center; gap: 8px; font-family: var(--font-num); font-size: 26px; background: #fff; border-radius: 999px; padding: 6px 16px; box-shadow: var(--shadow); }
+.album__tabs { display: flex; gap: 10px; }
+.album__tab.btn--selected { outline-color: var(--tab-color); }
+.album__stage { flex: 1; min-height: 0; display: grid; place-items: center; padding: 0 16px; }
+.album__scene {
+  position: relative; width: min(100%, calc((100dvh - 240px) * 1.6)); aspect-ratio: 16 / 10; max-height: 100%;
+  border-radius: 28px; overflow: hidden; background-size: cover; background-position: center; box-shadow: var(--shadow);
+  border: 6px solid #fff;
+}
+.album__scene--armed { cursor: copy; outline: 5px dashed var(--c-blue); outline-offset: 4px; }
+.album__placed { position: absolute; transform: translate(-50%, -50%); aspect-ratio: 1; touch-action: none; cursor: grab; filter: drop-shadow(0 4px 4px rgba(0,0,0,.25)); }
+.album__placed--on { filter: drop-shadow(0 0 0 #fff) drop-shadow(0 0 6px var(--c-blue)) drop-shadow(0 0 2px var(--c-blue)); }
+.album__tools { position: absolute; top: 12px; right: 12px; display: flex; gap: 8px; }
+.album__tray {
+  display: flex; gap: 10px; padding: 12px 16px; overflow-x: auto; overflow-y: hidden; min-height: 100px; align-items: center;
+  touch-action: pan-x; background: rgba(255,255,255,.6); border-top: 3px solid var(--c-line);
+}
+.album__item { flex: none; width: 76px; height: 76px; border-radius: 20px; border: 4px solid transparent; background: #fff; box-shadow: var(--shadow); display: grid; place-items: center; cursor: grab; touch-action: pan-x; padding: 6px; }
+.album__item img { width: 100%; height: 100%; pointer-events: none; }
+.album__item--armed { border-color: var(--c-blue); animation: pulse 1s ease-in-out infinite; }
+.album__empty { display: flex; align-items: center; gap: 8px; margin: 0 auto; opacity: .7; }
+.album__ghost { position: fixed; width: 96px; height: 96px; transform: translate(-50%, -50%); pointer-events: none; z-index: 60; filter: drop-shadow(0 8px 10px rgba(0,0,0,.3)); }
+@media (max-height: 600px) {
+  .album__scene { width: min(100%, calc((100dvh - 190px) * 1.6)); }
+  .album__tray { min-height: 80px; padding: 8px 12px; }
+  .album__item { width: 60px; height: 60px; }
+}
