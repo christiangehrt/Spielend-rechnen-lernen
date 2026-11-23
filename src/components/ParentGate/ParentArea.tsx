@@ -316,9 +316,8 @@ function ParentContent() {
             ersten Laden auch offline.
           </p>
           <p className="parent__note">
-            Grafiken: <a href="https://github.com/jdecked/twemoji" target="_blank" rel="noreferrer">Twemoji</a> (© Twitter/X
-            und weitere Mitwirkende, Lizenz CC-BY 4.0). Schriften: Fredoka &amp; Nunito (SIL Open Font License). Icons: Lucide
-            (ISC). Geräusche: selbst synthetisiert.
+            Alle Illustrationen, die Leitfigur Pünktchen und die Geräusche wurden für diese App per Code erstellt. Schriften:
+            Fredoka &amp; Nunito (SIL Open Font License). Icons: Lucide (ISC).
           </p>
         </section>
       </div>

@@ -1,18 +1,39 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
   <defs>
-    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#4f8cf0"/><stop offset="1" stop-color="#2f5fc8"/>
-    </linearGradient>
+    <linearGradient id="bgIcon" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#5b97f5"/><stop offset="1" stop-color="#2f5fc8"/></linearGradient>
   </defs>
-  <rect width="512" height="512" rx="112" fill="url(#bg)"/>
-  <g transform="translate(256 250)">
-    <rect x="-150" y="-118" width="140" height="190" rx="26" fill="#fff" transform="rotate(-10)"/>
-    <rect x="10" y="-118" width="140" height="190" rx="26" fill="#fff" transform="rotate(10)"/>
-    <g transform="rotate(-10)" fill="#ef476f"><circle cx="-112" cy="40" r="13"/><circle cx="-80" cy="40" r="13"/></g>
-    <g transform="rotate(10)" fill="#2f6fde"><circle cx="48" cy="40" r="13"/><circle cx="80" cy="40" r="13"/><circle cx="112" cy="40" r="13"/></g>
-    <text x="-80" y="-10" font-family="Arial Rounded MT Bold, Arial, sans-serif" font-weight="700" font-size="120" fill="#2b2d42" text-anchor="middle" transform="rotate(-10)">2</text>
-    <text x="80" y="-10" font-family="Arial Rounded MT Bold, Arial, sans-serif" font-weight="700" font-size="120" fill="#2b2d42" text-anchor="middle" transform="rotate(10)">3</text>
+  <rect width="512" height="512" rx="112" fill="url(#bgIcon)"/>
+  <g fill="#ffffff" opacity=".9">
+    <circle cx="96" cy="110" r="14"/><circle cx="140" cy="110" r="14"/><circle cx="416" cy="400" r="14"/><circle cx="372" cy="400" r="14"/><circle cx="416" cy="356" r="14"/>
   </g>
-  <circle cx="256" cy="400" r="46" fill="#ffd23f"/>
-  <path d="M256 374 v52 M230 400 h52" stroke="#2b2d42" stroke-width="14" stroke-linecap="round"/>
+  <g transform="translate(86 70) scale(1.7)">
+  <defs>
+    <radialGradient id="body" cx="40%" cy="35%" r="70%">
+      <stop offset="0" stop-color="#ffc56b"/><stop offset="1" stop-color="#ff7a45"/>
+    </radialGradient>
+  </defs>
+  <!-- antenna -->
+  <path d="M100 52 C 96 34, 112 26, 108 12" fill="none" stroke="#e8633a" stroke-width="5" stroke-linecap="round"/>
+  <circle cx="108" cy="12" r="9" fill="#ffd23f" stroke="#e8a800" stroke-width="3"/>
+  <!-- feet -->
+  <ellipse cx="74" cy="198" rx="22" ry="11" fill="#e8633a"/>
+  <ellipse cx="126" cy="198" rx="22" ry="11" fill="#e8633a"/>
+  <path d="M34 128 Q14 138 22 156" fill="none" stroke="#e8633a" stroke-width="14" stroke-linecap="round"/>
+  <path d="M166 116 Q190 96 182 70" fill="none" stroke="#e8633a" stroke-width="14" stroke-linecap="round"/>
+  <!-- body -->
+  <ellipse cx="100" cy="122" rx="74" ry="72" fill="url(#body)" stroke="#e8633a" stroke-width="4"/>
+  <!-- belly with the row of five -->
+  <ellipse cx="100" cy="160" rx="44" ry="26" fill="#fff4e3"/>
+  <g fill="#ef476f">
+    <circle cx="72" cy="160" r="6"/><circle cx="86" cy="160" r="6"/><circle cx="100" cy="160" r="6"/><circle cx="114" cy="160" r="6"/><circle cx="128" cy="160" r="6"/>
+  </g>
+  <!-- cheeks -->
+  <ellipse cx="52" cy="118" rx="11" ry="7" fill="#ff9aa8" opacity=".8"/>
+  <ellipse cx="148" cy="118" rx="11" ry="7" fill="#ff9aa8" opacity=".8"/>
+  <ellipse cx="76" cy="96" rx="17" ry="20" fill="#fff"/><ellipse cx="124" cy="96" rx="17" ry="20" fill="#fff"/>
+  <circle cx="79" cy="99" r="10" fill="#2b2d42"/><circle cx="121" cy="99" r="10" fill="#2b2d42"/>
+  <circle cx="83" cy="94" r="4" fill="#fff"/><circle cx="125" cy="94" r="4" fill="#fff"/>
+  <path d="M80 124 Q100 142 120 124" fill="#c43d2c" stroke="#2b2d42" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+  
+</g>
 </svg>

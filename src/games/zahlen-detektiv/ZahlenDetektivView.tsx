@@ -34,6 +34,11 @@ const questionParts = (q: Omit<Question, 'answer'>): SpeechPart[] => {
 
 const symbolOf = (k: QuestionKind) => KINDS.find((x) => x.kind === k)!.symbol;
 
+/** Question symbol; the "exact" question uses the drawn target instead of an emoji. */
+function Sym({ kind, size = 34 }: { kind: QuestionKind; size?: number }) {
+  return kind === 'exact' ? <Art name="ui.target" size={size} /> : <>{symbolOf(kind)}</>;
+}
+
 export function ZahlenDetektivView({ state, dispatch, settings }: GameViewProps<ZdState, ZdAction>) {
   const { shake, shakeClass } = useShake();
   const c = currentCase(state);
@@ -138,7 +143,9 @@ export function ZahlenDetektivView({ state, dispatch, settings }: GameViewProps<
           <Art name="game.zahlen-detektiv" size={88} />
           {last && state.phase === 'asking' && (
             <div className={`zd__bubble ${last.answer ? 'zd__bubble--yes' : 'zd__bubble--no'}`} key={c.questions.length}>
-              <span className="zd__qsym">{symbolOf(last.kind)}</span>
+              <span className="zd__qsym">
+                <Sym kind={last.kind} size={30} />
+              </span>
               <span>{last.kind === 'between' ? `${last.a}…${last.b}` : last.a}</span>
               <Art name={last.answer ? 'ui.check' : 'ui.cross'} size={40} />
             </div>
@@ -162,12 +169,12 @@ export function ZahlenDetektivView({ state, dispatch, settings }: GameViewProps<
                   aria-pressed={draft?.kind === k.kind}
                   onClick={() => onKind(k.kind, k.parts)}
                 >
-                  {k.symbol}
+                  <Sym kind={k.kind} size={52} />
                 </button>
               ))}
             </div>
             <div className="zd__draft">
-              <span className="zd__slot zd__slot--sym">{draft ? symbolOf(draft.kind) : '?'}</span>
+              <span className="zd__slot zd__slot--sym">{draft ? <Sym kind={draft.kind} size={40} /> : '?'}</span>
               <span className={`zd__slot ${draft?.a != null ? 'zd__slot--on' : ''}`}>{draft?.a ?? '…'}</span>
               {draft?.kind === 'between' && <span className={`zd__slot ${draft.b != null ? 'zd__slot--on' : ''}`}>{draft.b ?? '…'}</span>}
               <button
@@ -196,7 +203,9 @@ export function ZahlenDetektivView({ state, dispatch, settings }: GameViewProps<
         <ol className="zd__log" aria-label="Bisherige Fragen">
           {c.questions.map((q, i) => (
             <li key={i} className={q.answer ? 'zd__log--yes' : 'zd__log--no'}>
-              <span className="zd__qsym">{symbolOf(q.kind)}</span>
+              <span className="zd__qsym">
+                <Sym kind={q.kind} size={20} />
+              </span>
               {q.kind === 'between' ? `${q.a}…${q.b}` : q.a}
               <Art name={q.answer ? 'ui.check' : 'ui.cross'} size={22} />
             </li>

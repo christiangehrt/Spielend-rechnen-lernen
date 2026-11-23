@@ -7,8 +7,9 @@ Bedienbar ohne Lesekenntnisse (Icons, Animationen, Sprachausgabe – auf Wunsch 
 Stimme der Eltern**), große Touch-Flächen, kurze Runden, keine Zeitlimits, sanftes Feedback bei
 falschen Zügen. Beim ersten Spielen zeigt eine **animierte Hand** jedes Spiel in wenigen Schritten vor.
 
-Umgesetzt sind alle Roadmap-Phasen aus dem Entwickler-Briefing v2.0. Die finalen
-Illustrationen und Sprachaufnahmen kommen später über den [Asset-Contract](#asset-contract).
+Umgesetzt sind alle Roadmap-Phasen aus dem Entwickler-Briefing v2.0. Alle Illustrationen sind
+eigens per Code gezeichnet (siehe [Illustrationen](#illustrationen)); Sprachaufnahmen kommen von
+den Eltern oder später über den [Asset-Contract](#asset-contract).
 
 ## Die Spiele
 
@@ -167,8 +168,29 @@ und in `clips` die Zeitbereiche für diese Schlüssel angeben:
   `new_sticker`, `continue`, `new_game`, `hold_parent`
 
 Vorhandene Clips werden automatisch verwendet, fehlende fallen auf die Sprachsynthese zurück.
-Die Platzhalter-Grafiken stammen aus Twemoji; `npm run assets:twemoji` kopiert sie neu,
-`npm run assets:sounds` erzeugt das UI-Sprite neu, `npm run assets:icons` die App-Icons.
+`npm run assets:art` erzeugt alle Illustrationen neu, `npm run assets:sounds` das UI-Sprite,
+`npm run assets:icons` die App-Icons.
+
+## Illustrationen
+
+Alle Grafiken (14 Avatare, 10 Spielkacheln, 40 Sticker, 4 Album-Szenen, Symbole, Obst, Karten)
+werden von `scripts/illustrations/` als SVG erzeugt – in einem einheitlichen Stil: runde Formen,
+eine gemeinsame dunkle Kontur, weiche Schattierung mit Glanzlicht, überall die gleichen Augen und
+Wangen. Sticker bekommen einen weißen Rand wie echte Aufkleber.
+
+| Datei | Inhalt |
+|---|---|
+| `lib.mjs` | Stil-Baukasten: Farben, Kontur, Verläufe, Augen, Wangen, Glanzlichter, Sterne |
+| `animals.mjs` | Tierköpfe (Avatare, Schlummer-Tiere, Sticker) |
+| `objects.mjs` | Sticker-Motive (Dschungel, Weltall, Ozean, Bauernhof) |
+| `icons.mjs` | Symbole, Stufen, Lernziele, Obst, Schlummer-Karten |
+| `tiles.mjs` | Spielkacheln |
+| `scenes.mjs` | Album-Szenen |
+| `build.mjs` | schreibt alle SVGs und die Manifeste `art.json` / `stickers.json` |
+| `preview.mjs` | Kontaktbogen zum Begutachten: `node scripts/illustrations/preview.mjs animals bogen.png` |
+
+Ein Farbwechsel in `lib.mjs` (z. B. Konturfarbe) wirkt auf alle Motive. Einzelne Dateien können
+weiterhin 1:1 durch Profi-Illustrationen ersetzt werden.
 
 ## Speicher & Datenschutz
 
@@ -199,9 +221,8 @@ Chrome (Audio-Unlock, Sprachausgabe, Installation, Multi-Touch im Split-Screen v
 Mikrofonaufnahme). Aufnahmen aus Chrome (WebM) lassen sich auf älteren iPads evtl. nicht abspielen –
 dort am besten direkt auf dem iPad aufnehmen.
 
-## Lizenzen der Platzhalter-Assets
+## Lizenzen
 
-- Grafiken: [Twemoji](https://github.com/jdecked/twemoji) – © Twitter/X und Mitwirkende, CC-BY 4.0
+- Illustrationen, Leitfigur „Pünktchen“, Szenen, App-Icon, Geräusche: für dieses Projekt per Code erstellt
 - Schriften: Fredoka, Nunito – SIL Open Font License (über `@fontsource`, lokal eingebettet)
 - Icons: [Lucide](https://lucide.dev) – ISC
-- Geräusche, Szenen-Hintergründe, App-Icon, Kartenstapel-Symbol, Leitfigur „Pünktchen“: für dieses Projekt erstellt
