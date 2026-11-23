@@ -7,6 +7,7 @@ import type { GameViewProps } from '../../core/types/game';
 import { Art } from '../../components/shared/Art';
 import { Button } from '../../components/shared/Button';
 import { useShake } from '../../components/shared/useShake';
+import { explainOverTen } from '../../core/explain';
 import { collectedCount, hint, hiddenCount, isOver, selectedSum, TARGET } from './engine';
 import type { VzAction, VzState } from './types';
 import './VerliebteZahlen.css';
@@ -14,6 +15,9 @@ import './VerliebteZahlen.css';
 export function VerliebteZahlenView({ state, dispatch, settings }: GameViewProps<VzState, VzAction>) {
   const { shake, shakeClass } = useShake();
   const [hinted, setHinted] = useState<number[]>([]);
+  /** Sum that went over ten – the extra dots are shown in red for a moment. */
+  const [overflow, setOverflow] = useState<number | null>(null);
+  const overflowTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const sum = selectedSum(state);
   const over = isOver(state);
   const lastBasketSize = useRef(state.basket.length);
@@ -53,7 +57,11 @@ export function VerliebteZahlenView({ state, dispatch, settings }: GameViewProps
     if (tile.state !== 'open' || typeof tile.value !== 'number') return;
     const selected = state.selected.includes(id);
     if (!selected && sum + tile.value > TARGET) {
-      shake(`tile-${id}`, 'too_much');
+      const values = [...state.selected.map((sid) => state.tiles[sid].value as number), tile.value];
+      shake(`tile-${id}`, ...explainOverTen(values));
+      if (overflowTimer.current) clearTimeout(overflowTimer.current);
+      setOverflow(sum + tile.value);
+      overflowTimer.current = setTimeout(() => setOverflow(null), 1800);
       return;
     }
     if (!selected && sum + tile.value === TARGET) {
@@ -128,9 +136,16 @@ export function VerliebteZahlenView({ state, dispatch, settings }: GameViewProps
         <div className={`vz__sum ${sum === 0 ? '' : 'vz__sum--active'}`} aria-label={`Summe ${sum} von ${TARGET}`}>
           <div className="vz__frame">
             {Array.from({ length: TARGET }, (_, i) => (
-              <span key={i} className={`vz__dot ${i < sum ? (i < 5 ? 'vz__dot--a' : 'vz__dot--b') : ''}`} />
+              <span key={i} className={`vz__dot ${i < (overflow ?? sum) ? (i < 5 ? 'vz__dot--a' : 'vz__dot--b') : ''}`} />
             ))}
           </div>
+          {overflow !== null && (
+            <div className="vz__over" aria-label={`${overflow - TARGET} zu viel`}>
+              {Array.from({ length: overflow - TARGET }, (_, i) => (
+                <span key={i} className="vz__dot vz__dot--over" />
+              ))}
+            </div>
+          )}
           <div className="vz__eq">
             {state.selected.length === 0 ? (
               <span className="vz__q">?</span>

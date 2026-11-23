@@ -21,9 +21,10 @@ export interface CreateOptions {
   seed: number;
   target?: number;
   maxFlips?: number;
+  practice?: boolean;
 }
 
-export const createGame = ({ humans, bots, botLevel, seed, target = 5, maxFlips = 60 }: CreateOptions): BfState => {
+export const createGame = ({ humans, bots, botLevel, seed, target = 5, maxFlips = 60, practice = false }: CreateOptions): BfState => {
   const [deck, s] = shuffle(buildDeck(), seed);
   const seats = [
     ...humans.map((h, i) => ({ id: `h${i}`, name: h.name, avatarId: h.avatarId, kind: 'human' as const })),
@@ -31,7 +32,7 @@ export const createGame = ({ humans, bots, botLevel, seed, target = 5, maxFlips 
   ];
   const per = Math.floor(deck.length / seats.length);
   const players: BfPlayer[] = seats.map((p, i) => ({ ...p, stack: deck.slice(i * per, (i + 1) * per), open: [] }));
-  return { target, players, active: 0, phase: 'playing', lastBuzz: null, buzzCount: 0, flips: 0, maxFlips, botLevel, rngSeed: s };
+  return { target, players, active: 0, phase: 'playing', lastBuzz: null, buzzCount: 0, flips: 0, maxFlips, botLevel, rngSeed: s, practice };
 };
 
 export const topCards = (s: BfState) =>

@@ -30,6 +30,25 @@ describe('app data', () => {
     expect(app.profiles[0].tutorialsSeen).toEqual([]);
   });
 
+  it('fills the learning-progress fields of older profiles', () => {
+    const app = migrateAppData({
+      profiles: [
+        {
+          id: 'x',
+          gameStats: { g: { played: 2, recent: [{ preset: 'zr20', mastered: true, at: 1 }, { preset: 5 }, { preset: 'zr20', bot: 'evil', at: 2 }] } },
+          skillStats: { 'blitzblick:7': { ok: 2, miss: -1 }, bad: 3 },
+        },
+      ],
+    });
+    const p = app.profiles[0];
+    expect(p.settings.adaptiveDifficulty).toBe(true);
+    expect(p.gameStats.g.recent).toEqual([
+      { preset: 'zr20', mastered: true, at: 1 },
+      { preset: 'zr20', mastered: false, at: 2 },
+    ]);
+    expect(p.skillStats).toEqual({ 'blitzblick:7': { ok: 2, miss: 0 } });
+  });
+
   it('rejects garbage profiles', () => {
     expect(normalizeProfile(null)).toBeNull();
     expect(normalizeProfile({ name: 'no id' })).toBeNull();

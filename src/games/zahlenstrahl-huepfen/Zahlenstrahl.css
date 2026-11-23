@@ -30,6 +30,7 @@
 .zh-stone--five .zh-stone__num { font-size: clamp(16px, 2.1vw, 26px); color: #1f6b33; }
 .zh-stone--ten { background: radial-gradient(circle at 35% 30%, #fff1b8, #f4b400); box-shadow: 0 5px 0 #b88700, 0 0 0 4px rgba(255,255,255,.7); width: clamp(46px, 5.6vw, 72px); height: clamp(46px, 5.6vw, 72px); }
 .zh-stone--ten .zh-stone__num { font-size: clamp(18px, 2.4vw, 30px); color: #8a5a00; }
+.zh-stone--reach { box-shadow: 0 0 0 5px #fff, 0 0 18px 6px rgba(47, 168, 79, .8); animation: pulse .8s ease-in-out infinite; }
 .zh-stone--start { outline: 4px dashed rgba(255,255,255,.9); outline-offset: 3px; }
 .zh__frog { position: absolute; bottom: 70px; transform: translateX(-50%); transition: left .45s cubic-bezier(.4,0,.2,1); z-index: 2; pointer-events: none; }
 .zh__frog-hop { animation: frog-hop .45s ease; }

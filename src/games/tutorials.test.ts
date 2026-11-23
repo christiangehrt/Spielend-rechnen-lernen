@@ -1,5 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import type { TutorialStep } from '../core/types/game';
+import { createGame as bbCreate } from './blitzblick/engine';
+import { tutorial as bbTutorial } from './blitzblick/tutorial';
 import { createGame as bfCreate } from './blitz-fuenf/engine';
 import { tutorial as bfTutorial } from './blitz-fuenf/tutorial';
 import { createGame as kzCreate } from './klappen-zu/engine';
@@ -32,7 +34,8 @@ const check = (steps: TutorialStep[]) => {
 };
 
 describe('tutorials', () => {
-  it('exist for all nine games', () => {
+  it('exist for all ten games', () => {
+    check(bbTutorial(bbCreate('bis10', 1)));
     check(rrTutorial(rrCreate({ presetId: 'zr20', mode: 'solo', players: humans, seed: 1 })));
     check(kzTutorial(kzCreate('klappen9', 1)));
     check(vzTutorial(vzCreate('raster20', 1)));

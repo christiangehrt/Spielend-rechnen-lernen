@@ -6,7 +6,7 @@
 .hub__filters { display: flex; gap: 10px; justify-content: center; padding: 6px 16px 10px; flex-wrap: wrap; }
 .hub__filter { min-width: 64px; min-height: 60px; padding: 0 12px; }
 .hub__grid {
-  display: grid; gap: 18px; padding: 8px 24px 24px; align-content: start;
+  display: grid; gap: 18px; padding: 8px 24px 110px; align-content: start;
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
 }
 .tile {
@@ -30,3 +30,6 @@
   .tile__art img { width: 60px; height: 60px; }
   .tile__title { font-size: 18px; }
 }
+
+.hub__mascot { position: fixed; right: calc(14px + var(--safe-right)); bottom: calc(10px + var(--safe-bottom)); z-index: 5; filter: drop-shadow(0 6px 8px rgba(0,0,0,.18)); }
+@media (max-height: 500px) { .hub__mascot img { width: 64px; height: 64px; } .hub__grid { padding-bottom: 80px; } }

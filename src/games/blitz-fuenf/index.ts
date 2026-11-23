@@ -11,6 +11,7 @@ const module: GameModule<BfState, BfAction> = {
   stateVersion: 1,
   presets: [{ id: 'ziel5', label: '5', art: 'level.junior', level: 'junior', speech: 'Genau fünf Früchte' }],
   modes: [
+    { id: 'solo', players: 1, bots: 0, art: 'mode.solo', speech: 'Üben ohne Wettlauf' },
     { id: 'bot', players: 1, bots: 1, art: 'mode.bot', speech: 'Gegen den Roboter' },
     { id: 'versus', players: 2, bots: 0, art: 'mode.versus', speech: 'Zu zweit, geteilter Bildschirm' },
   ],
@@ -18,9 +19,10 @@ const module: GameModule<BfState, BfAction> = {
   create: (setup) =>
     createGame({
       humans: setup.playerNames.map((name, i) => ({ name, avatarId: setup.playerAvatars?.[i] ?? 'avatar.fox' })),
-      bots: setup.mode === 'bot' ? [{ name: BOT_NAMES[0], avatarId: BOT_AVATARS[0] }] : [],
+      bots: setup.mode === 'versus' ? [] : [{ name: BOT_NAMES[0], avatarId: BOT_AVATARS[0] }],
       botLevel: setup.botLevel ?? 'anfaenger',
       seed: setup.seed,
+      practice: setup.mode === 'solo',
     }),
   reduce,
   tutorial,

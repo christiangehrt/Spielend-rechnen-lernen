@@ -9,6 +9,7 @@ import { NumberCard } from '../../components/shared/NumberCard';
 import { Overlay } from '../../components/shared/Overlay';
 import { PassAndPlayOverlay } from '../../components/shared/PassAndPlayOverlay';
 import { useShake } from '../../components/shared/useShake';
+import { explainEquation } from '../../core/explain';
 import { ANIMALS, CARD_ART, CARD_NAME, isNumber, kindOf, valueOf } from './cards';
 import { classify, points, whoActs } from './engine';
 import type { SsAction, SsPlayer, SsState } from './types';
@@ -118,7 +119,13 @@ export function SchlummerSchlossView({ state, dispatch, settings, paused = false
 
   const playSelected = () => {
     if (selection === 'invalid') {
-      shake('play', state.selected.length >= 3 ? { text: 'Die Rechnung stimmt nicht.' } : { text: 'So geht das nicht.' });
+      const numbers = state.selected.filter(isNumber);
+      shake(
+        'play',
+        ...(numbers.length >= 2 && numbers.length === state.selected.length
+          ? explainEquation(numbers.map(valueOf))
+          : [{ text: 'So geht das nicht.' }]),
+      );
       return;
     }
     dispatch({ type: 'PLAY_SELECTED' });

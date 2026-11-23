@@ -25,6 +25,8 @@
 .kz__cells { display: flex; gap: 4px; flex-wrap: wrap; justify-content: center; max-width: 420px; }
 .kz__cell { width: 26px; height: 26px; border-radius: 7px; border: 3px solid #d8d0bf; background: #fff; transition: background .2s; }
 .kz__cell:nth-child(5n) { margin-right: 6px; }
+.kz__cell--try { background: #ffd8a8; border-color: #ff8c1a; }
+.kz__cell--over { background: var(--c-red); border-color: #b8284d; animation: pop-in .25s ease; }
 .kz__equation { font-family: var(--font-num); font-size: 44px; font-weight: 600; display: flex; align-items: center; gap: 6px; }
 .kz__op { color: var(--c-muted); margin: 0 6px; }
 .kz__term--done { color: var(--c-green); }

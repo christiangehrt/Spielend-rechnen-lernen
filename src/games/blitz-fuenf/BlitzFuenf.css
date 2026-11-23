@@ -10,7 +10,8 @@
 .bf__stack--go { animation: pulse 1s ease-in-out infinite; box-shadow: 0 0 0 5px var(--c-green), 4px 4px 0 #f3e2b0; }
 .bf__total { display: inline-flex; align-items: center; gap: 6px; font-family: var(--font-num); font-size: 24px; font-weight: 600; }
 .bf__table { display: flex; flex-direction: column; align-items: center; gap: 22px; }
-.bf__cards { display: flex; gap: 22px; }
+.bf__cards { display: flex; gap: 22px; border-radius: 26px; transition: box-shadow .3s; }
+.bf__cards--hint { box-shadow: 0 0 0 8px var(--c-gold), 0 0 30px 10px rgba(244, 180, 0, .6); animation: pulse 1s ease-in-out infinite; }
 .bf-card { position: relative; border-radius: 22px; background: #fff; border: 5px solid #f1e4c4; box-shadow: 0 6px 0 #e3d3ab; animation: card-in .25s ease; }
 .bf-card--empty { background: rgba(0,0,0,.04); border: 4px dashed #e0d6c4; box-shadow: none; animation: none; }
 .bf-card__fruit { position: absolute; transform: translate(-50%, -50%); line-height: 0; }

@@ -137,6 +137,7 @@ function LoadedGame({ mod, profileId }: { mod: GameModule; profileId: string }) 
         <ResultFlow
           key={round}
           mod={mod}
+          setup={setup}
           result={result}
           canUndo={canUndo}
           onUndo={undo}

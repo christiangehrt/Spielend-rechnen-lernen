@@ -31,6 +31,8 @@
 .vz__dot { width: 36px; height: 36px; border-radius: 50%; background: #f1ece1; transition: background .2s; }
 .vz__dot--a { background: var(--c-red); }
 .vz__dot--b { background: var(--c-blue); }
+.vz__over { display: flex; gap: 6px; flex-wrap: wrap; justify-content: center; padding: 6px; border-radius: 12px; border: 3px dashed var(--c-red); animation: pop-in .25s ease; }
+.vz__dot--over { background: var(--c-red); }
 .vz__eq { font-family: var(--font-num); font-size: 38px; font-weight: 600; display: flex; align-items: center; flex-wrap: wrap; justify-content: center; }
 .vz__op { color: var(--c-muted); margin: 0 6px; }
 .vz__q { color: #b8b0a0; }

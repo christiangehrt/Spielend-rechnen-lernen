@@ -85,10 +85,23 @@ export function BlitzFuenfView({ state, dispatch, paused: tutorialOpen = false }
   const [botMisses, setBotMisses] = useState(false);
   useEffect(() => setBotMisses(Math.random() < reaction.miss), [state.flips, reaction.miss]);
   useBotTimer(
-    !tutorialOpen && state.phase === 'playing' && !paused && match && botIndex >= 0 && !botMisses,
+    !state.practice && !tutorialOpen && state.phase === 'playing' && !paused && match && botIndex >= 0 && !botMisses,
     () => buzz(botIndex, performance.now()),
     [state.flips, state.buzzCount],
     jitter(reaction.min, reaction.max),
+  );
+
+  // Practice mode: a gentle hint when a five stays unnoticed.
+  const [hint, setHint] = useState(false);
+  useEffect(() => setHint(false), [state.flips, state.buzzCount]);
+  useBotTimer(
+    !!state.practice && !tutorialOpen && state.phase === 'playing' && !paused && match && !hint,
+    () => {
+      setHint(true);
+      void audio.say('look_close');
+    },
+    [state.flips, state.buzzCount],
+    5000,
   );
 
   const flip = (player: number) => {
@@ -133,7 +146,7 @@ export function BlitzFuenfView({ state, dispatch, paused: tutorialOpen = false }
     <div className="bf">
       <Seat player={state.players[human]} active={state.active === human && !paused} onFlip={() => flip(human)} />
       <div className="bf__table">
-        <div className="bf__cards">
+        <div className={`bf__cards ${hint ? 'bf__cards--hint' : ''}`}>
           <FruitCard card={tops[human]} />
           <FruitCard card={tops[bot]} />
         </div>

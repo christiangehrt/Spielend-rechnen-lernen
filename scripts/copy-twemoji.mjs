@@ -43,6 +43,7 @@ const ART = {
   'game.verliebte-zahlen': ['1f49e', '💞'],
   'game.zahlenstrahl-huepfen': ['1f438', '🐸'],
   'game.zahlen-detektiv': ['1f50e', '🔎'],
+  'game.blitzblick': ['1f4f8', '📸'],
   // presets & modes
   'level.junior': ['1f423', '🐣'],
   'level.mittel': ['1f425', '🐥'],
@@ -128,6 +129,10 @@ const copy = (code, dest) => {
 // Hand-made artwork that lives in public/assets/art and is not copied from Twemoji.
 const CUSTOM = {
   'ui.cards': ['ui-cards.svg', '🂠'],
+  // Leitfigur "Pünktchen" (made for this project)
+  'mascot.happy': ['mascot-happy.svg', '🙂'],
+  'mascot.cheer': ['mascot-cheer.svg', '🥳'],
+  'mascot.think': ['mascot-think.svg', '🤔'],
 };
 
 const art = {};

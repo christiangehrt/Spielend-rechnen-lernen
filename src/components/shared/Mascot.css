@@ -1,0 +1,9 @@
+.mascot { display: inline-grid; place-items: center; border: 0; background: none; padding: 0; line-height: 0; }
+.mascot--tap { cursor: pointer; min-width: 56px; min-height: 56px; }
+.mascot--tap:active img { transform: scale(.92); }
+.mascot--happy img { animation: mascot-bob 2.4s ease-in-out infinite; }
+.mascot--cheer img { animation: mascot-jump .9s ease-in-out infinite; }
+.mascot--think img { animation: mascot-tilt 2.6s ease-in-out infinite; transform-origin: 50% 90%; }
+@keyframes mascot-bob { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
+@keyframes mascot-jump { 0%, 100% { transform: translateY(0) scale(1, 1); } 30% { transform: translateY(-18px) scale(.96, 1.04); } 60% { transform: translateY(0) scale(1.05, .95); } }
+@keyframes mascot-tilt { 0%, 100% { transform: rotate(-4deg); } 50% { transform: rotate(5deg); } }

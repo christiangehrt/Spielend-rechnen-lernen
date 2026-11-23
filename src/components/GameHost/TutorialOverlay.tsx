@@ -4,6 +4,7 @@ import { createPortal } from 'react-dom';
 import { audio } from '../../core/audio/AudioManager';
 import type { TutorialStep } from '../../core/types/game';
 import { Art } from '../shared/Art';
+import { Mascot } from '../shared/Mascot';
 import './Tutorial.css';
 
 const HAND = 72;
@@ -195,13 +196,17 @@ export function TutorialOverlay({ steps, onDone }: { steps: TutorialStep[]; onDo
 
       {finished ? (
         <div className="tut__done">
+          <Mascot mood="cheer" size={130} />
           <button type="button" className="btn btn--huge btn--primary btn--pulse" aria-label="Los geht's" onClick={close}>
             <Play size={60} fill="currentColor" strokeWidth={3} />
           </button>
         </div>
       ) : (
         <div className={`tut__caption ${lowTarget ? 'tut__caption--top' : ''}`} aria-live="polite">
-          <span className="tut__text">{step?.say}</span>
+          <span className="tut__row">
+            <Mascot size={52} />
+            <span className="tut__text">{step?.say}</span>
+          </span>
           <span className="tut__dots" aria-hidden>
             {steps.map((_, i) => (
               <span key={i} className={i === index ? 'on' : i < index ? 'done' : ''} />

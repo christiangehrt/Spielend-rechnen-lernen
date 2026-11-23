@@ -5,15 +5,17 @@ import { assetUrl, useAssets } from '../../core/assets/manifests';
 import { applyStars, computeStarAward, isNewRecord, recordGameStats } from '../../core/rewards/rewardEngine';
 import { navigate } from '../../core/router';
 import { getActiveProfile, updateProfile, useActiveProfile } from '../../core/storage/appStore';
-import type { GameModule, GameResult } from '../../core/types/game';
+import type { GameModule, GameResult, GameSetup } from '../../core/types/game';
 import type { RewardEventType, StarAward } from '../../core/types/rewards';
 import { Art } from '../shared/Art';
 import { Button } from '../shared/Button';
 import { Overlay } from '../shared/Overlay';
 import { StarProgress } from '../shared/StarProgress';
+import { Mascot } from '../shared/Mascot';
 
 interface Props {
   mod: GameModule;
+  setup: GameSetup;
   result: GameResult;
   canUndo: boolean;
   onUndo: () => void;
@@ -39,7 +41,7 @@ type Phase =
  * "undo or finish?" so a child can back out of a dead end. Stars are granted
  * exactly once, when the round is accepted.
  */
-export function ResultFlow({ mod, result, canUndo, onUndo, onFinish, onRestart }: Props) {
+export function ResultFlow({ mod, setup, result, canUndo, onUndo, onFinish, onRestart }: Props) {
   const askFirst = !result.won && canUndo;
   const [phase, setPhase] = useState<Phase>({ name: 'ask' });
   const awarded = useRef(false);
@@ -53,7 +55,11 @@ export function ResultFlow({ mod, result, canUndo, onUndo, onFinish, onRestart }
     if (!current) return;
     const starAward = computeStarAward(result);
     const record = isNewRecord(current, mod.meta.id, result);
-    const withStats = recordGameStats(current, mod.meta.id, result, starAward.total);
+    const withBots = (mod.modes.find((m) => m.id === setup.mode)?.bots ?? 0) > 0;
+    const withStats = recordGameStats(current, mod.meta.id, result, starAward.total, Date.now(), {
+      preset: setup.presetId,
+      ...(withBots ? { bot: setup.botLevel ?? 'anfaenger' } : {}),
+    });
     const outcome = applyStars(
       withStats,
       starAward.total,
@@ -74,7 +80,7 @@ export function ResultFlow({ mod, result, canUndo, onUndo, onFinish, onRestart }
     if (!askFirst) return null;
     return (
       <Overlay label="Keine Züge mehr">
-        <Art name="ui.thinking" size={110} />
+        <Mascot mood="think" size={120} />
         <div className="result__summary">
           {result.summary.map((s, i) => (
             <span key={i} className="result__chip">
@@ -197,7 +203,10 @@ function StarsPanel({
   const strategy = award.events.filter((e) => e.startsWith('STRATEGY_'));
   return (
     <Overlay label={result.won ? 'Gewonnen' : 'Runde vorbei'}>
-      <Art name={result.won ? 'ui.trophy' : 'ui.party'} size={100} />
+      <div className="result__hero">
+        <Mascot mood={result.won ? 'cheer' : 'happy'} size={110} />
+        <Art name={result.won ? 'ui.trophy' : 'ui.party'} size={80} />
+      </div>
       {record && (
         <div className="result__record">
           <Art name="ui.medal" size={40} /> Rekord!

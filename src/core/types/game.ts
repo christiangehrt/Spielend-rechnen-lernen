@@ -59,6 +59,10 @@ export interface GameResult {
   score?: number;
   /** Icon/value pairs shown on the result screen. */
   summary: { art: string; value: string; speech?: string }[];
+  /** "Did well on this level" for the difficulty recommendation (defaults to `won`). */
+  mastered?: boolean;
+  /** Fine-grained learning progress for the parent area, e.g. { key: 'blitzblick:7', ok: false }. */
+  insights?: { key: string; ok: boolean }[];
 }
 
 export interface GameViewProps<S, A> {

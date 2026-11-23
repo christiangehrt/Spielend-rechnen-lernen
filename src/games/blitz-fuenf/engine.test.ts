@@ -33,6 +33,15 @@ describe('matching five', () => {
   });
 });
 
+describe('practice mode', () => {
+  it('is only set when requested', () => {
+    expect(game().practice).toBe(false);
+    const p = createGame({ humans: [{ name: 'Mia', avatarId: 'a' }], bots: [{ name: 'Robo', avatarId: 'b' }], botLevel: 'anfaenger', seed: 3, practice: true });
+    expect(p.practice).toBe(true);
+    expect(p.players).toHaveLength(2);
+  });
+});
+
 describe('turns', () => {
   it('only the active player flips, then the turn passes', () => {
     let s = game();

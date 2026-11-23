@@ -1,16 +1,20 @@
 import { Play } from 'lucide-react';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { audio } from '../../core/audio/AudioManager';
 import type { GameViewProps } from '../../core/types/game';
 import { Art } from '../../components/shared/Art';
 import { Button } from '../../components/shared/Button';
 import { useShake } from '../../components/shared/useShake';
+import { explainTooFar } from '../../core/explain';
 import { checkJump, currentTask, goal, jumpedSoFar, lineWindow, remaining } from './engine';
 import type { ZhAction, ZhState } from './types';
 import './Zahlenstrahl.css';
 
 export function ZahlenstrahlView({ state, dispatch, settings }: GameViewProps<ZhState, ZhAction>) {
   const { shake, shakeClass } = useShake();
+  /** After a too-far jump the reachable stones light up for a moment. */
+  const [showReach, setShowReach] = useState(false);
+  const reachTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const task = currentTask(state);
   const [from, to] = lineWindow(state);
   const span = to - from;
@@ -48,7 +52,12 @@ export function ZahlenstrahlView({ state, dispatch, settings }: GameViewProps<Zh
       dispatch({ type: 'JUMP', to: n });
       return;
     }
-    if (check === 'tooFar') shake(`stone-${n}`, 'too_far');
+    if (check === 'tooFar') {
+      shake(`stone-${n}`, ...explainTooFar(rest));
+      if (reachTimer.current) clearTimeout(reachTimer.current);
+      setShowReach(true);
+      reachTimer.current = setTimeout(() => setShowReach(false), 1800);
+    }
     else if (check === 'tinyStep') shake(`stone-${n}`, 'bigger_jump');
     else if (check === 'wrongDirection')
       shake(`stone-${n}`, plus ? 'frog_right' : 'frog_left');
@@ -129,6 +138,7 @@ export function ZahlenstrahlView({ state, dispatch, settings }: GameViewProps<Zh
               five && 'zh-stone--five',
               n === task.start && 'zh-stone--start',
               n === state.position && 'zh-stone--here',
+              showReach && (plus ? n > state.position && n <= state.position + rest : n < state.position && n >= state.position - rest) && 'zh-stone--reach',
               shakeClass(`stone-${n}`),
             ]
               .filter(Boolean)

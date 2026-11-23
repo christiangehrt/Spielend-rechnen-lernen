@@ -62,3 +62,20 @@
 .voice__text { flex: 1; font-size: 16px; }
 .voice__text--long { font-size: 13px; color: var(--c-muted); }
 .voice__clear { margin-top: 10px; }
+
+/* ---------- Lernstand ---------- */
+.parent__rec { display: inline-block; margin-left: 8px; padding: 2px 8px; border-radius: 999px; font-size: 13px; color: #fff; }
+.parent__rec--up { background: var(--c-green); }
+.parent__rec--down { background: var(--c-blue); }
+.parent__trend { display: inline-flex; gap: 4px; }
+.parent__trend span { width: 12px; height: 12px; border-radius: 50%; background: #e3dccd; }
+.parent__trend span.ok { background: var(--c-green); }
+.skills { display: grid; gap: 16px; }
+.skills__block h3 { margin: 0 0 8px; font-size: 17px; }
+.skills__numbers { display: grid; grid-template-columns: repeat(10, minmax(32px, 1fr)); gap: 6px; max-width: 520px; }
+.skills__num { display: grid; place-items: center; height: 36px; border-radius: 10px; background: #efeae0; color: #9a9384; font-family: var(--font-num); font-weight: 600; }
+.skills__num.good { background: #d6f2dd; color: var(--c-green-dark); }
+.skills__num.mid { background: #fff1b8; color: #8a5a00; }
+.skills__num.weak { background: #fde0e7; color: #b0234a; }
+.skills__bar { height: 14px; border-radius: 7px; background: #efeae0; overflow: hidden; max-width: 520px; }
+.skills__bar span { display: block; height: 100%; background: var(--c-green); }

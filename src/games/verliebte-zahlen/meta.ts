@@ -6,7 +6,6 @@ export const meta: GameMeta = {
   art: 'game.verliebte-zahlen',
   color: '#ef476f',
   learningGoals: ['zerlegung', 'addition'],
-  intro:
-    'Verliebte Zahlen. Drehe ein Kärtchen um. Finde offene Kärtchen, die zusammen genau zehn ergeben, und tippe sie an. Dann wandern sie in deinen Korb.',
+  intro: 'Verliebte Zahlen. Drehe Kärtchen um und finde Zahlen, die zusammen zehn ergeben.',
   phase: 2,
 };

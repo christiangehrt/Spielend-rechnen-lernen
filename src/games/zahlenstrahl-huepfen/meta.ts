@@ -6,7 +6,6 @@ export const meta: GameMeta = {
   art: 'game.zahlenstrahl-huepfen',
   color: '#2f6fde',
   learningGoals: ['zahlenstrahl', 'addition'],
-  intro:
-    'Zahlenstrahl-Hüpfen. Hilf dem Frosch, die richtige Zahl zu erreichen. Tippe auf den Stein, zu dem er springen soll. Tipp: Springe zuerst auf die Zehn, dann den Rest!',
+  intro: 'Zahlenstrahl-Hüpfen. Hilf dem Frosch zur richtigen Zahl. Tipp: Spring zuerst bis zur Zehn!',
   phase: 2,
 };

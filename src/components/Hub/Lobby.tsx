@@ -1,4 +1,4 @@
-import { Home, Play, RotateCcw, Volume2 } from 'lucide-react';
+import { ArrowDown, ArrowUp, Home, Play, RotateCcw, Volume2 } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { audio } from '../../core/audio/AudioManager';
 import { newSeed } from '../../core/random/rng';
@@ -8,11 +8,13 @@ import { readJSON, writeJSON } from '../../core/storage/kv';
 import { clearSession, loadSession, saveSession } from '../../core/storage/sessions';
 import type { GameModule, GameSetup, PlayMode } from '../../core/types/game';
 import { BOT_LEVELS, type BotLevel } from '../../core/bots/bots';
+import { recommend, type Recommendation } from '../../core/adaptive/recommend';
 import type { PlayerProfile } from '../../core/types/profile';
 import { getEntry } from '../../games/registry';
 import { useGameModule } from '../../games/useGameModule';
 import { Art } from '../shared/Art';
 import { Button } from '../shared/Button';
+import { Mascot } from '../shared/Mascot';
 import './Lobby.css';
 
 export function Lobby({ gameId }: { gameId: string }) {
@@ -38,20 +40,42 @@ const choiceKey = (profileId: string, gameId: string) => `lobby_${profileId}_${g
 function LobbyInner({ mod, profile }: { mod: GameModule; profile: PlayerProfile }) {
   const gameId = mod.meta.id;
   const saved = loadSession(profile.id, gameId, mod.stateVersion);
-  const [choice, setChoice] = useState<LobbyChoice>(() => {
+  const [initial] = useState(() => {
     const stored = readJSON<LobbyChoice>(choiceKey(profile.id, gameId));
     const presetOk = stored && mod.presets.some((p) => p.id === stored.presetId);
     const modeOk = stored && mod.modes.some((m) => m.id === stored.mode);
-    return {
+    const base: LobbyChoice = {
       presetId: presetOk ? stored!.presetId : mod.defaultPresetId(profile.settings.defaultNumberRange),
       mode: modeOk ? stored!.mode : mod.modes[0].id,
       botLevel: stored?.botLevel ?? 'anfaenger',
     };
+    // Growing difficulty: pre-select the recommended level (the child can still pick another one).
+    if (!profile.settings.adaptiveDifficulty) return { choice: base, rec: null as Recommendation | null };
+    const withBots = (mod.modes.find((m) => m.id === base.mode)?.bots ?? 0) > 0;
+    const rec = recommend(
+      mod.presets.map((p) => p.id),
+      profile.gameStats[gameId]?.recent ?? [],
+      { presetId: base.presetId, botLevel: base.botLevel },
+      withBots,
+    );
+    return { choice: rec.change ? { ...base, presetId: rec.presetId, botLevel: rec.botLevel } : base, rec: rec.change ? rec : null };
   });
+  const [choice, setChoice] = useState<LobbyChoice>(initial.choice);
+  const rec = initial.rec;
 
   useEffect(() => {
-    void audio.say({ text: mod.meta.title, key: `title_${mod.meta.id}` });
-  }, [mod.meta.title]);
+    const title = { text: mod.meta.title, key: `title_${mod.meta.id}` };
+    if (rec?.change === 'up') void audio.say(title, 'level_up');
+    else if (rec?.change === 'down') void audio.say(title, 'level_down');
+    else void audio.say(title);
+  }, [mod.meta.title, mod.meta.id, rec]);
+
+  const badge = (show: boolean) =>
+    show && rec ? (
+      <span className={`lobby__badge lobby__badge--${rec.change}`} aria-hidden>
+        {rec.change === 'up' ? <ArrowUp size={20} strokeWidth={3.4} /> : <ArrowDown size={20} strokeWidth={3.4} />}
+      </span>
+    ) : null;
 
   const start = () => {
     writeJSON(choiceKey(profile.id, gameId), choice);
@@ -84,9 +108,12 @@ function LobbyInner({ mod, profile }: { mod: GameModule; profile: PlayerProfile 
             <Art name={mod.meta.art} size={150} />
           </div>
           <h1 className="lobby__title">{mod.meta.title}</h1>
-          <Button label="Erklärung anhören" size="big" variant="blue" onClick={() => void audio.say({ text: mod.meta.intro, key: `intro_${mod.meta.id}` })}>
-            <Volume2 size={40} strokeWidth={2.6} />
-          </Button>
+          <div className="lobby__help">
+            <Mascot mood={rec?.change === 'up' ? 'cheer' : 'happy'} size={84} lines={[[{ text: mod.meta.intro, key: `intro_${mod.meta.id}` }]]} />
+            <Button label="Erklärung anhören" size="big" variant="blue" onClick={() => void audio.say({ text: mod.meta.intro, key: `intro_${mod.meta.id}` })}>
+              <Volume2 size={40} strokeWidth={2.6} />
+            </Button>
+          </div>
         </section>
 
         <section className="lobby__options">
@@ -110,6 +137,7 @@ function LobbyInner({ mod, profile }: { mod: GameModule; profile: PlayerProfile 
               >
                 <Art name={p.art} size={44} />
                 <span>{p.label}</span>
+                {badge(rec?.axis === 'preset' && rec.presetId === p.id)}
               </Button>
             ))}
           </div>
@@ -146,6 +174,7 @@ function LobbyInner({ mod, profile }: { mod: GameModule; profile: PlayerProfile 
                     <Art name="mode.bot" size={30} />
                     <Art name={b.art} size={30} />
                   </span>
+                  {badge(rec?.axis === 'bot' && rec.botLevel === b.id)}
                 </Button>
               ))}
             </div>

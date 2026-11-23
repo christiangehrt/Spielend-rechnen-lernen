@@ -6,7 +6,6 @@ export const meta: GameMeta = {
   art: 'game.nachbar-reihe',
   color: '#ef476f',
   learningGoals: ['zahlenstrahl', 'vergleichen'],
-  intro:
-    'Nachbar-Reihe. Jede Farbe beginnt mit der Elf. Danach darfst du nur Nachbarzahlen anlegen: eins weniger links oder eins mehr rechts. Kannst du nichts legen, ziehe eine Karte. Wer zuerst keine Karten mehr hat, gewinnt!',
+  intro: 'Nachbar-Reihe. Jede Farbe beginnt mit der Elf. Dann passen nur Nachbarzahlen: eins weniger oder eins mehr.',
   phase: 3,
 };

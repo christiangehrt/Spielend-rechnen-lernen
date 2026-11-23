@@ -1,4 +1,5 @@
 import type { GameMeta, GameModule } from '../core/types/game';
+import { meta as blitzblick } from './blitzblick/meta';
 import { meta as raufRunter } from './rauf-runter/meta';
 import { meta as raupenReihen } from './raupen-reihen/meta';
 import { meta as nachbarReihe } from './nachbar-reihe/meta';
@@ -15,8 +16,9 @@ export interface RegistryEntry {
   load?: () => Promise<{ default: GameModule }>;
 }
 
-/** Central registration of all 9 modules (order = hub order). */
+/** Central registration of all modules (order = hub order; Blitzblick is the entry-level game). */
 export const GAMES: RegistryEntry[] = [
+  { meta: blitzblick, load: () => import('./blitzblick') },
   { meta: raufRunter, load: () => import('./rauf-runter') },
   { meta: raupenReihen, load: () => import('./raupen-reihen') },
   { meta: nachbarReihe, load: () => import('./nachbar-reihe') },

@@ -24,8 +24,10 @@ const module: GameModule<KlappenState, KlappenAction> = {
   result: (s) => {
     if (s.phase !== 'over') return null;
     const points = penalty(s);
+    const masteredBelow: Record<string, number> = { klappen6: 3, klappen9: 8, klappen12: 15 };
     return {
       won: points === 0,
+      mastered: points <= (masteredBelow[s.preset.id] ?? 0),
       score: points,
       strategyEvents: s.stats.multiSplits > 0 ? ['STRATEGY_MULTI_SPLIT'] : [],
       summary: [{ art: 'ui.box', value: String(points), speech: `${points} Punkte` }],

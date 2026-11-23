@@ -27,7 +27,7 @@ export const buildVoiceCatalog = (games: GameMeta[]): VoiceGroup[] => [
   {
     id: 'math',
     title: 'Rechnen',
-    items: (['plus', 'minus', 'equals', 'ten_jump', 'five_jump'] as PhraseKey[]).map(phrase),
+    items: (['plus', 'minus', 'equals', 'is', 'are', 'not', 'ten_jump', 'five_jump', 'look'] as PhraseKey[]).map(phrase),
   },
   {
     id: 'praise',
@@ -59,8 +59,26 @@ export const buildVoiceCatalog = (games: GameMeta[]): VoiceGroup[] => [
         'frog_right',
         'frog_left',
         'try_again',
+        'that_makes',
+        'you_need_only',
+        'more_than_ten',
+        'only_bigger_here',
+        'only_smaller_here',
+        'same_number',
+        'only_left',
+        'jump_far',
+        'does_not_fit',
+        'only_fit',
+        'starts_eleven',
+        'not_equal',
+        'look_close',
       ] as PhraseKey[]
     ).map(phrase),
+  },
+  {
+    id: 'mascot',
+    title: 'Pünktchen & Stufen',
+    items: (['mascot_hello', 'mascot_play', 'mascot_great', 'mascot_tip', 'level_up', 'level_down'] as PhraseKey[]).map(phrase),
   },
   {
     id: 'detective',

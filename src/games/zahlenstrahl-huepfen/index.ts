@@ -30,6 +30,7 @@ const module: GameModule<ZhState, ZhAction> = {
       // Won when at least half of the ten-crossing tasks used the ten stop (rounds without crossings count as won).
       won: crossing === 0 || bridged >= Math.ceil(crossing / 2),
       strategyEvents: bridged > 0 ? ['STRATEGY_TEN_BRIDGE'] : [],
+      insights: s.results.filter((r) => r.crossesTen).map((r) => ({ key: 'zehner:bruecke', ok: r.bridged })),
       summary: [
         { art: 'ui.check', value: String(s.results.length) },
         ...(crossing > 0 ? [{ art: 'game.zahlenstrahl-huepfen', value: `${bridged}/${crossing}` }] : []),

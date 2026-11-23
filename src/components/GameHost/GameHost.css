@@ -34,3 +34,5 @@
   .rotate-hint svg:first-child { animation: rotate-phone 2s ease-in-out infinite; }
 }
 @keyframes rotate-phone { 0%, 30% { transform: rotate(0); } 60%, 100% { transform: rotate(-90deg); } }
+.result__hero { display: flex; align-items: flex-end; justify-content: center; gap: 6px; }
+@media (max-height: 500px) { .result__hero img { width: 60px; height: 60px; } }

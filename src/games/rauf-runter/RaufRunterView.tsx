@@ -7,6 +7,7 @@ import { NumberCard } from '../../components/shared/NumberCard';
 import { PassAndPlayOverlay } from '../../components/shared/PassAndPlayOverlay';
 import { useDragDrop } from '../../components/shared/useDragDrop';
 import { useShake } from '../../components/shared/useShake';
+import { explainPileMismatch } from '../../core/explain';
 import { activePlayer, canEndTurn, canPlayCard, getRequiredPlays, getTopCard, isReverseJump } from './engine';
 import type { Pile, TheGameAction, TheGameState } from './types';
 import './RaufRunter.css';
@@ -29,7 +30,7 @@ export function RaufRunterView({ state, dispatch, settings }: GameViewProps<TheG
 
   const tryPlay = (card: number, pile: Pile) => {
     if (!canPlayCard(card, pile, delta)) {
-      shake(pile.id, 'not_here');
+      shake(pile.id, ...explainPileMismatch(card, getTopCard(pile), pile.direction));
       return;
     }
     const jump = isReverseJump(card, pile, delta);

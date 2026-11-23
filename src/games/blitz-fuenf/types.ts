@@ -22,6 +22,8 @@ export interface BfState {
   maxFlips: number;
   botLevel: BotLevel;
   rngSeed: number;
+  /** Practice mode: the robot only turns its cards, it never presses the button. */
+  practice?: boolean;
 }
 
 export type BfAction = { type: 'FLIP'; player: number } | { type: 'BUZZ'; player: number };

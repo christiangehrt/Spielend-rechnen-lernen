@@ -5,6 +5,7 @@ import { navigate } from '../../core/router';
 import { addProfile, setActiveProfile, useAppData } from '../../core/storage/appStore';
 import { Art } from '../shared/Art';
 import { Button } from '../shared/Button';
+import { Mascot } from '../shared/Mascot';
 import { AVATARS } from './avatars';
 import './ProfileScreen.css';
 
@@ -77,9 +78,11 @@ function CreateProfile({ firstRun, onCancel, onDone }: { firstRun: boolean; onCa
       <main className="create">
         {firstRun && (
           <div className="create__welcome">
-            <Art name="game.rauf-runter" size={64} />
-            <Art name="game.klappen-zu" size={64} />
-            <Art name="game.zahlenstrahl-huepfen" size={64} />
+            <Mascot
+              mood="cheer"
+              size={120}
+              lines={[['mascot_hello', { text: 'Such dir ein Tier aus und drücke den Haken!' }]]}
+            />
             <h1>Spielend rechnen lernen</h1>
           </div>
         )}

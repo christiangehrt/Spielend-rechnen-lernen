@@ -6,7 +6,6 @@ export const meta: GameMeta = {
   art: 'game.zahlen-detektiv',
   color: '#7b5cd6',
   learningGoals: ['zahlenstrahl', 'vergleichen'],
-  intro:
-    'Zahlen-Detektiv. Ich denke mir eine Zahl. Stelle Fragen: Ist sie größer? Ist sie kleiner? Liegt sie dazwischen? Zahlen, die es nicht sein können, werden grau. Findest du meine Zahl?',
+  intro: 'Zahlen-Detektiv. Ich denke mir eine Zahl. Finde sie mit Fragen: größer, kleiner oder dazwischen?',
   phase: 2,
 };

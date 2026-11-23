@@ -15,9 +15,9 @@ import { backupFileName, buildBackup, parseBackup } from '../../core/storage/bac
 import { audio } from '../../core/audio/AudioManager';
 import { exportVoiceClips, importVoiceClips } from '../../core/audio/voiceStore';
 import { VoiceRecorder } from './VoiceRecorder';
+import { GameProgressTable, SkillOverview } from './LearningProgress';
 import { isPersistent } from '../../core/storage/kv';
 import type { NumberRange, ProfileSettings } from '../../core/types/profile';
-import { GAMES } from '../../games/registry';
 import { Art } from '../shared/Art';
 import { Button } from '../shared/Button';
 import { HoldButton } from '../shared/HoldButton';
@@ -54,6 +54,11 @@ export function ParentArea() {
 const SETTING_LABELS: { key: keyof Omit<ProfileSettings, 'defaultNumberRange'>; label: string; hint: string }[] = [
   { key: 'showDotPatterns', label: 'Punktemuster auf Karten', hint: '5er-/10er-Feld-Struktur als Zählhilfe' },
   { key: 'showNumberLineHelper', label: 'Mini-Zahlenstrahl', hint: 'Ausklappbare Zahlenstrahl-Hilfe in den Spielen' },
+  {
+    key: 'adaptiveDifficulty',
+    label: 'Schwierigkeit wächst mit',
+    hint: 'Nach 3 sicheren Runden wird die nächste Stufe empfohlen, nach 3 schweren eine leichtere (gegen Roboter: Roboter-Stärke)',
+  },
   { key: 'soundEnabled', label: 'Geräusche', hint: 'Karten, Klappen, Sterne …' },
   { key: 'speechEnabled', label: 'Sprachausgabe', hint: 'Zahlen und Hinweise werden vorgelesen' },
 ];
@@ -236,37 +241,16 @@ function ParentContent() {
 
         <section className="parent__section">
           <h2>Statistik</h2>
-          <table className="parent__stats">
-            <thead>
-              <tr>
-                <th>Spiel</th>
-                <th>Runden</th>
-                <th>Gewonnen</th>
-                <th>Sterne</th>
-                <th>Bestwert</th>
-              </tr>
-            </thead>
-            <tbody>
-              {GAMES.filter((g) => g.load).map(({ meta }) => {
-                const st = profile.gameStats[meta.id];
-                return (
-                  <tr key={meta.id}>
-                    <td>
-                      <Art name={meta.art} size={26} /> {meta.title}
-                    </td>
-                    <td>{st?.played ?? 0}</td>
-                    <td>{st?.won ?? 0}</td>
-                    <td>{st?.starsEarned ?? 0}</td>
-                    <td>{st?.bestScore ?? '–'}</td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
+          <GameProgressTable profile={profile} />
           <p className="parent__note">
-            Gesamt: {profile.totalStars} Sterne · {profile.unlockedStickerIds.length} Sticker. Bestwert: weniger ist besser
-            (übrige Karten / Strafpunkte / Fragen).
+            Gesamt: {profile.totalStars} Sterne · {profile.unlockedStickerIds.length} Sticker. Punkte bei „Letzte Runden“:
+            grün = auf dieser Stufe gut geschafft.
           </p>
+        </section>
+
+        <section className="parent__section">
+          <h2>Lernstand</h2>
+          <SkillOverview profile={profile} />
         </section>
 
         <section className="parent__section">

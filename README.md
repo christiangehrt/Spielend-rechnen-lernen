@@ -1,6 +1,7 @@
 # Spielend rechnen lernen
 
-Offline-fähige Mathe-Spielesammlung (PWA) für Kinder ab 6 Jahren: 9 Spiele für den Übergang vom
+Offline-fähige Mathe-Spielesammlung (PWA) für Kinder ab 6 Jahren: 9 Spiele aus dem Briefing plus das
+Einstiegsspiel „Blitzblick“ für den Übergang vom
 zählenden Rechnen zu Addition, Zahlzerlegung, Abstandsabschätzung und Zahlensprüngen.
 Bedienbar ohne Lesekenntnisse (Icons, Animationen, Sprachausgabe – auf Wunsch mit der **eigenen
 Stimme der Eltern**), große Touch-Flächen, kurze Runden, keine Zeitlimits, sanftes Feedback bei
@@ -9,7 +10,7 @@ falschen Zügen. Beim ersten Spielen zeigt eine **animierte Hand** jedes Spiel i
 Umgesetzt sind alle Roadmap-Phasen aus dem Entwickler-Briefing v2.0. Die finalen
 Illustrationen und Sprachaufnahmen kommen später über den [Asset-Contract](#asset-contract).
 
-## Die 9 Spiele
+## Die Spiele
 
 Die Spiele übernehmen die Mechaniken aus dem Briefing, haben aber **eigene Namen und eine
 eigene Optik**. Die Originaltitel (The Game, 6 nimmt!, Halli Galli, Sleeping Queens, I Sea 10!,
@@ -17,12 +18,13 @@ Elfer raus!) sind geschützte Marken bzw. Verlagsprodukte und werden in der App 
 
 | # | In der App | Mechanik (Briefing) | Junior-Standard | Profi | Modi |
 |---|---|---|---|---|---|
+| 0 | **Blitzblick** (Einstieg) | – | Punktebild (Zehnerfeld, Würfel, lose Punkte) blitzt kurz auf, Zahl antippen; Anzeigezeit passt sich an | 1–5, 1–20 | allein |
 | 1 | **Rauf & Runter** | The Game | Karten 2–19, 1 Stapel ↑ ab 1, 1 Stapel ↓ ab 20, Sprung ±5, 6 Handkarten | 1–50 (±10), Original 2–99 mit 4 Stapeln | allein, zu zweit (Koop) |
 | 2 | **Raupen-Reihen** | 6 nimmt! | Karten 1–30, 3 Reihen, jede Karte 1 Punkt, 6 Handkarten | 1–104, 4 Reihen, Original-Wertung | gegen 2 Roboter, zu zweit + Roboter |
 | 3 | **Nachbar-Reihe** | Elfer raus! | 2 Farben × 1–20, 7 Handkarten | 4 Farben (80 Karten) | gegen Roboter, zu zweit |
 | 4 | **Klappen zu!** | Shut the Box | Klappen 1–9, 2 Würfel (ZR 10: Klappen 1–6, 1 Würfel) | Klappen 1–12 | allein |
 | 5 | **Schlummer-Schloss** | Sleeping Queens | Originaldeck (67 Karten), 12 schlafende Tiere, Sieg mit 4 Tieren/40 Punkten | 5 Tiere/50 Punkte | gegen Roboter, zu zweit |
-| 6 | **Blitz-Fünf** | Halli Galli | Zielsumme 5, 56 Karten, 4 Obstsorten | – | gegen Roboter, Split-Screen zu zweit |
+| 6 | **Blitz-Fünf** | Halli Galli | Zielsumme 5, 56 Karten, 4 Obstsorten | – | Üben ohne Wettlauf, gegen Roboter, Split-Screen zu zweit |
 | 7 | **Verliebte Zahlen** | I Sea 10! | 4×5-Raster (20 Plättchen), ohne Elster | 40 bzw. 100 Plättchen mit Elster (statt Hai) | allein |
 | 8 | **Zahlenstrahl-Hüpfen** | – | Zahlenstrahl 0–20, Steine bei 5/10/15/20, Zehner-Zwischenstopp | 0–10, Minus bis 20, 0–100 (20er-Ausschnitt) | allein |
 | 9 | **Zahlen-Detektiv** | – | Geheimzahl 1–20, Fragen >, <, zwischen, genau | 1–10, 1–50, 1–100 | allein |
@@ -32,6 +34,22 @@ Trommel (Zauberstab), Clown (Hofnarr). Die Hund/Katze-Konfliktregel ist nicht en
 
 Roboter-Stärken (Anfänger = Standard, Mittel, Clever) folgen den Heuristiken aus Abschnitt 6 des
 Briefings; Bots „denken“ 800–1500 ms, damit das Kind jeden Zug verfolgen kann.
+
+## Lernhilfen
+
+- **Pünktchen**, die Leitfigur (eigene SVG-Figur mit fünf Punkten in einer Reihe), begrüßt im Hub,
+  erklärt in Tutorials, jubelt bei Erfolgen und denkt mit, wenn es nicht weitergeht. Antippen spricht
+  Tipps. Austauschbar über `mascot.happy`/`mascot.cheer`/`mascot.think` in `art.json`.
+- **Erklärende Rückmeldung** statt nur „falsch“: „6 ist kleiner als 9 – hier kommen nur größere
+  Zahlen hin“, „Das sind 10. Du brauchst nur 8“ (rote Überlauf-Kästchen), „6 und 7 sind 13 – mehr
+  als zehn“ (rote Extrapunkte), „Zu weit! Du darfst nur noch 3 weit hüpfen“ (erreichbare Steine
+  leuchten), „Hier passen nur 9 und 14“, „2 plus 3 sind 5, nicht 6“. Bei Blitzblick nach einem Fehler:
+  Punktebild erneut, „Schau mal: fünf und zwei …“ – die Zahl findet das Kind selbst.
+- **Mitwachsende Schwierigkeit:** Nach 3 gut geschafften Runden auf einer Stufe schlägt die Lobby die
+  nächste Stufe vor (vorausgewählt, grüner Pfeil, Pünktchen sagt Bescheid), nach 3 schweren Runden
+  eine leichtere. In Spielen gegen Roboter wird die Roboter-Stärke angepasst. Im Elternbereich abschaltbar.
+- **Lernstand für Eltern:** Stufe und Verlauf je Spiel, welche Mengen (1–20) bei Blitzblick sicher
+  erkannt werden, wie oft der Zehner-Zwischenstopp genutzt wird – jeweils mit Übungstipp.
 
 ## Vormachen statt Vorlesen
 
@@ -161,16 +179,18 @@ und den JSON-Export/-Import aller Profile, Sticker-Alben und laufenden Spiele.
 
 ## Qualitätssicherung
 
-Automatisch geprüft (`npm test`, 134 Tests):
+Automatisch geprüft (`npm test`, 153 Tests):
 - The Game: Pflichtabgabe sinkt bei leerem Stapel von 2 auf 1, Undo stellt den Zug exakt wieder her
 - Shut the Box: Subset-Sum-Ende (offen 2/4/6, Wurf 5 → sofort Ende), 1-Würfel-Option genau wenn alle Klappen > 6 zu sind
 - Sleeping Queens: 2- und Mehr-Summanden-Gleichungen (1+2+3=6), Ablehnung falscher, Konter als Interrupt
 - 6 nimmt!: strikt aufsteigende Abarbeitung, manuell gewählte Reihe beginnt mit der neuen Karte, bevor die nächste Karte geprüft wird
 - Auto-Resume und JSON-Backup verlustfrei (Round-Trip-Test), Schema-Migration
 - Bot-gegen-Bot-Partien aller Stärken laufen ohne Hänger durch
-- Tutorials für alle 9 Spiele (kurze Sätze, echte Spielzüge, keine Lösung verraten), Aufnahme-Katalog, Stille-Trimmung
+- Tutorials für alle Spiele (kurze Sätze, echte Spielzüge, keine Lösung verraten), Aufnahme-Katalog, Stille-Trimmung
+- Blitzblick (Aufgaben, Tempo-Anpassung, Hilfe), erklärende Rückmeldungen, Stufenempfehlung, Lernstand-Daten
 
-Im Browser geprüft (Chromium, Tablet- und Handy-Querformat): alle 9 Spiele spielbar, Reload mitten im
+Im Browser geprüft (Chromium, Tablet- und Handy-Querformat; zusätzlich im Entwicklungsmodus ohne
+React-Warnungen): alle Spiele spielbar, Reload mitten im
 Spiel, Offline-Start aller Spiele über den Service Worker, Tutorials aller Spiele, Aufnahme mit
 simuliertem Mikrofon inkl. Wiedergabe im Spiel und Sicherung, keine Konsolenfehler.
 
@@ -184,4 +204,4 @@ dort am besten direkt auf dem iPad aufnehmen.
 - Grafiken: [Twemoji](https://github.com/jdecked/twemoji) – © Twitter/X und Mitwirkende, CC-BY 4.0
 - Schriften: Fredoka, Nunito – SIL Open Font License (über `@fontsource`, lokal eingebettet)
 - Icons: [Lucide](https://lucide.dev) – ISC
-- Geräusche, Szenen-Hintergründe, App-Icon, Kartenstapel-Symbol: für dieses Projekt erstellt
+- Geräusche, Szenen-Hintergründe, App-Icon, Kartenstapel-Symbol, Leitfigur „Pünktchen“: für dieses Projekt erstellt

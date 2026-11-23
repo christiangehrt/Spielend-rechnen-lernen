@@ -1,5 +1,6 @@
 import type { GameResult } from '../types/game';
-import { emptyGameStats, type PlayerProfile } from '../types/profile';
+import { emptyGameStats, type PlayerProfile, type RecentRound } from '../types/profile';
+import type { BotLevel } from '../bots/bots';
 import type { RewardEventType, StarAward } from '../types/rewards';
 import { nextRandom } from '../random/rng';
 
@@ -75,12 +76,15 @@ export const applyStars = (
   };
 };
 
+export const MAX_RECENT = 8;
+
 export const recordGameStats = (
   profile: PlayerProfile,
   gameId: string,
   result: GameResult,
   stars: number,
   now = Date.now(),
+  round?: { preset: string; bot?: BotLevel },
 ): PlayerProfile => {
   const prev = profile.gameStats[gameId] ?? emptyGameStats();
   const best =
@@ -89,8 +93,17 @@ export const recordGameStats = (
       : prev.bestScore === null
         ? result.score
         : Math.min(prev.bestScore, result.score);
+  const recent: RecentRound[] = round
+    ? [...prev.recent, { ...round, mastered: result.mastered ?? result.won, at: now }].slice(-MAX_RECENT)
+    : prev.recent;
+  const skillStats = { ...profile.skillStats };
+  for (const { key, ok } of result.insights ?? []) {
+    const s = skillStats[key] ?? { ok: 0, miss: 0 };
+    skillStats[key] = ok ? { ...s, ok: s.ok + 1 } : { ...s, miss: s.miss + 1 };
+  }
   return {
     ...profile,
+    skillStats,
     gameStats: {
       ...profile.gameStats,
       [gameId]: {
@@ -99,6 +112,7 @@ export const recordGameStats = (
         starsEarned: prev.starsEarned + stars,
         lastPlayedAt: now,
         bestScore: best,
+        recent,
       },
     },
   };

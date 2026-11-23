@@ -1,5 +1,5 @@
 import { BookOpen, LayoutGrid, Lock, Play, RotateCcw } from 'lucide-react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { audio } from '../../core/audio/AudioManager';
 import { navigate } from '../../core/router';
 import { useActiveProfile } from '../../core/storage/appStore';
@@ -10,8 +10,11 @@ import { Art } from '../shared/Art';
 import { Button } from '../shared/Button';
 import { HoldButton } from '../shared/HoldButton';
 import { StarProgress } from '../shared/StarProgress';
+import { Mascot } from '../shared/Mascot';
 import { unlockParentArea } from '../ParentGate/parentGate';
 import { GOALS } from './goals';
+
+let greetedThisVisit = false;
 import './Hub.css';
 
 export function Hub() {
@@ -23,6 +26,16 @@ export function Hub() {
   const latestMeta = latest ? getEntry(latest.gameId)?.meta : undefined;
   const savedIds = new Set(sessions.map((s) => s.gameId));
   const games = GAMES.filter((g) => !filter || g.meta.learningGoals.includes(filter));
+
+  // Pünktchen greets once per visit (only possible once audio was unlocked by a tap).
+  useEffect(() => {
+    if (greetedThisVisit || !audio.isRunning) return;
+    greetedThisVisit = true;
+    const t = setTimeout(() => {
+      void audio.say(profile.name ? { text: `Hallo ${profile.name}!` } : 'mascot_hello', 'mascot_play');
+    }, 500);
+    return () => clearTimeout(t);
+  }, [profile.name]);
 
   return (
     <div className="screen hub">
@@ -134,6 +147,16 @@ export function Hub() {
           );
         })}
       </main>
+
+      <Mascot
+        className="hub__mascot"
+        size={96}
+        lines={[
+          ['mascot_hello', 'mascot_play'],
+          ['mascot_tip'],
+          ...(profile.totalStars > 0 ? [['mascot_great' as const]] : []),
+        ]}
+      />
     </div>
   );
 }

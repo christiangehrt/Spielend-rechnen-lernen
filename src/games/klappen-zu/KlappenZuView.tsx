@@ -8,6 +8,7 @@ import { Art } from '../../components/shared/Art';
 import { Button } from '../../components/shared/Button';
 import { Dice } from '../../components/shared/Dice';
 import { useShake } from '../../components/shared/useShake';
+import { explainOvershoot } from '../../core/explain';
 import { canUseOneDie, hint, mustUseOneDie, penalty, selectedSum, target } from './engine';
 import type { KlappenAction, KlappenState } from './types';
 import './KlappenZu.css';
@@ -18,6 +19,9 @@ export function KlappenZuView({ state, dispatch, settings }: GameViewProps<Klapp
   const { shake, shakeClass } = useShake();
   const [rolling, setRolling] = useState(false);
   const [hinted, setHinted] = useState<number[]>([]);
+  /** Flap value that would overshoot – shown as red cells for a moment. */
+  const [overflow, setOverflow] = useState<number | null>(null);
+  const overflowTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const rollTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const goal = target(state);
   const partial = selectedSum(state);
@@ -66,7 +70,10 @@ export function KlappenZuView({ state, dispatch, settings }: GameViewProps<Klapp
   const toggle = (value: number) => {
     if (state.phase !== 'select' || rolling || !state.open.includes(value)) return;
     if (!state.selected.includes(value) && partial + value > goal) {
-      shake(`flap-${value}`, 'too_much');
+      shake(`flap-${value}`, ...explainOvershoot(partial + value, goal));
+      if (overflowTimer.current) clearTimeout(overflowTimer.current);
+      setOverflow(value);
+      overflowTimer.current = setTimeout(() => setOverflow(null), 1600);
       return;
     }
     audio.play('select');
@@ -158,7 +165,7 @@ export function KlappenZuView({ state, dispatch, settings }: GameViewProps<Klapp
         {state.phase === 'select' && !rolling && (
           <div className={`kz__sum ${shakeClass('sum')}`} aria-label={`${partial} von ${goal}`}>
             <div className="kz__cells">
-              {Array.from({ length: goal }, (_, i) => {
+              {Array.from({ length: Math.max(goal, overflow !== null ? partial + overflow : 0) }, (_, i) => {
                 let acc = 0;
                 let color: string | undefined;
                 for (const v of state.selected) {
@@ -167,6 +174,10 @@ export function KlappenZuView({ state, dispatch, settings }: GameViewProps<Klapp
                     break;
                   }
                   acc += v;
+                }
+                if (overflow !== null && i >= partial) {
+                  // The tapped flap does not fit: its cells beyond the goal are marked red.
+                  return <span key={i} className={`kz__cell kz__cell--try ${i >= goal ? 'kz__cell--over' : ''}`} />;
                 }
                 return <span key={i} className="kz__cell" style={color ? { background: color, borderColor: color } : undefined} />;
               })}

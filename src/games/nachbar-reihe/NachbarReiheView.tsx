@@ -6,6 +6,7 @@ import type { GameViewProps } from '../../core/types/game';
 import { Art } from '../../components/shared/Art';
 import { PassAndPlayOverlay } from '../../components/shared/PassAndPlayOverlay';
 import { useShake } from '../../components/shared/useShake';
+import { explainNeighbour } from '../../core/explain';
 import { canDraw, canEndTurn, canPlay, colorOf, MAX_DRAWS, START, validCards, valueOf } from './engine';
 import type { NrAction, NrState } from './types';
 import './NachbarReihe.css';
@@ -62,7 +63,7 @@ export function NachbarReiheView({ state, dispatch, paused = false }: GameViewPr
     if (!humanTurn) return;
     if (!canPlay(state, card)) {
       const row = state.rows[colorOf(card)];
-      shake(`card-${card}`, { text: row ? 'Das ist keine Nachbarzahl.' : 'Diese Farbe beginnt mit der Elf.' });
+      shake(`card-${card}`, ...explainNeighbour(valueOf(card), row, state.preset.maxNum));
       setSelected(null);
       return;
     }

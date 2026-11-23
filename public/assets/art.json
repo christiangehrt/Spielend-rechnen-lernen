@@ -5,6 +5,18 @@
       "src": "assets/art/ui-cards.svg",
       "emoji": "🂠"
     },
+    "mascot.happy": {
+      "src": "assets/art/mascot-happy.svg",
+      "emoji": "🙂"
+    },
+    "mascot.cheer": {
+      "src": "assets/art/mascot-cheer.svg",
+      "emoji": "🥳"
+    },
+    "mascot.think": {
+      "src": "assets/art/mascot-think.svg",
+      "emoji": "🤔"
+    },
     "avatar.fox": {
       "src": "assets/art/avatar-fox.svg",
       "emoji": "🦊"
@@ -96,6 +108,10 @@
     "game.zahlen-detektiv": {
       "src": "assets/art/game-zahlen-detektiv.svg",
       "emoji": "🔎"
+    },
+    "game.blitzblick": {
+      "src": "assets/art/game-blitzblick.svg",
+      "emoji": "📸"
     },
     "level.junior": {
       "src": "assets/art/level-junior.svg",

@@ -5,6 +5,8 @@ import {
   type GameStats,
   type PlayerProfile,
   type ProfileSettings,
+  type RecentRound,
+  type SkillStat,
 } from '../types/profile';
 import type { PlacedSticker } from '../types/rewards';
 
@@ -44,6 +46,7 @@ export const createProfile = (name: string, avatarId: string): PlayerProfile => 
   settings: { ...DEFAULT_SETTINGS },
   gameStats: {},
   tutorialsSeen: [],
+  skillStats: {},
   createdAt: Date.now(),
 });
 
@@ -61,6 +64,7 @@ const normalizeSettings = (raw: unknown): ProfileSettings => {
     showNumberLineHelper: bool(s.showNumberLineHelper, DEFAULT_SETTINGS.showNumberLineHelper),
     soundEnabled: bool(s.soundEnabled, DEFAULT_SETTINGS.soundEnabled),
     speechEnabled: bool(s.speechEnabled, DEFAULT_SETTINGS.speechEnabled),
+    adaptiveDifficulty: bool(s.adaptiveDifficulty, DEFAULT_SETTINGS.adaptiveDifficulty),
   };
 };
 
@@ -88,7 +92,27 @@ const normalizeStats = (raw: unknown): Record<string, GameStats> => {
       starsEarned: num(v.starsEarned, base.starsEarned),
       lastPlayedAt: typeof v.lastPlayedAt === 'number' ? v.lastPlayedAt : null,
       bestScore: typeof v.bestScore === 'number' ? v.bestScore : null,
+      recent: (Array.isArray(v.recent) ? v.recent : [])
+        .filter((r): r is Record<string, unknown> => isObj(r) && typeof r.preset === 'string')
+        .map(
+          (r): RecentRound => ({
+            preset: r.preset as string,
+            ...(r.bot === 'anfaenger' || r.bot === 'mittel' || r.bot === 'clever' ? { bot: r.bot } : {}),
+            mastered: r.mastered === true,
+            at: num(r.at, 0),
+          }),
+        )
+        .slice(-8),
     };
+  }
+  return out;
+};
+
+const normalizeSkills = (raw: unknown): Record<string, SkillStat> => {
+  if (!isObj(raw)) return {};
+  const out: Record<string, SkillStat> = {};
+  for (const [key, value] of Object.entries(raw)) {
+    if (isObj(value)) out[key] = { ok: Math.max(0, num(value.ok, 0)), miss: Math.max(0, num(value.miss, 0)) };
   }
   return out;
 };
@@ -111,6 +135,7 @@ export const normalizeProfile = (raw: unknown): PlayerProfile | null => {
     placedStickers: stickers.map(normalizeSticker).filter((s): s is PlacedSticker => s !== null),
     settings: normalizeSettings(raw.settings),
     gameStats: normalizeStats(raw.gameStats),
+    skillStats: normalizeSkills(raw.skillStats),
     tutorialsSeen: Array.isArray(raw.tutorialsSeen)
       ? [...new Set(raw.tutorialsSeen.filter((x): x is string => typeof x === 'string'))]
       : [],
