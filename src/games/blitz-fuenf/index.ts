@@ -3,6 +3,7 @@ import type { GameModule } from '../../core/types/game';
 import { BlitzFuenfView } from './BlitzFuenfView';
 import { createGame, reduce, totalCards, winnerIndex } from './engine';
 import { meta } from './meta';
+import { tutorial } from './tutorial';
 import type { BfAction, BfState } from './types';
 
 const module: GameModule<BfState, BfAction> = {
@@ -22,6 +23,7 @@ const module: GameModule<BfState, BfAction> = {
       seed: setup.seed,
     }),
   reduce,
+  tutorial,
   canUndo: () => false,
   hasUndo: false,
   undoAction: { type: 'FLIP', player: -1 },

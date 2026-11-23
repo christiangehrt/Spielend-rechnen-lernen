@@ -65,6 +65,18 @@ export interface GameViewProps<S, A> {
   state: S;
   dispatch: (action: A) => void;
   settings: ProfileSettings;
+  /** True while a tutorial is shown: computer opponents must wait. */
+  paused?: boolean;
+}
+
+/** One step of a show-how tutorial: an animated hand points at (or drags) a UI element. */
+export interface TutorialStep {
+  /** CSS selector of the element the hand points at (omit for a centred message). */
+  target?: string;
+  /** The hand drags a copy of `target` here (demonstrates drag & drop). */
+  to?: string;
+  /** One short spoken sentence (also shown as a caption for parents). */
+  say: string;
 }
 
 export interface GameModule<S = any, A = any> {
@@ -80,6 +92,8 @@ export interface GameModule<S = any, A = any> {
   undoAction: A;
   /** Show the undo button at all (default true). */
   hasUndo?: boolean;
+  /** Show-how tutorial for the current state (played on first start and via the hand button). */
+  tutorial?: (state: S) => TutorialStep[];
   /** Non-null once the round is over. */
   result(state: S): GameResult | null;
   /** Pause before the result screen so the child can see the final move (default 700 ms). */

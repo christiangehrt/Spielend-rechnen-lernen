@@ -49,9 +49,9 @@ export function ZahlenstrahlView({ state, dispatch, settings }: GameViewProps<Zh
       return;
     }
     if (check === 'tooFar') shake(`stone-${n}`, 'too_far');
-    else if (check === 'tinyStep') shake(`stone-${n}`, { text: 'Mach einen größeren Sprung!' });
+    else if (check === 'tinyStep') shake(`stone-${n}`, 'bigger_jump');
     else if (check === 'wrongDirection')
-      shake(`stone-${n}`, { text: plus ? 'Der Frosch hüpft nach rechts.' : 'Der Frosch hüpft nach links.' });
+      shake(`stone-${n}`, plus ? 'frog_right' : 'frog_left');
   };
 
   // Jump arcs of the current task.

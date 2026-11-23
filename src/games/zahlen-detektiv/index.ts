@@ -1,6 +1,7 @@
 import type { GameModule } from '../../core/types/game';
 import { createGame, reduce, totalQuestions } from './engine';
 import { meta } from './meta';
+import { tutorial } from './tutorial';
 import type { ZdAction, ZdPresetId, ZdState } from './types';
 import { ZahlenDetektivView } from './ZahlenDetektivView';
 
@@ -17,6 +18,7 @@ const module: GameModule<ZdState, ZdAction> = {
   defaultPresetId: (range) => (range === 10 ? 'bis10' : range === 100 ? 'bis100' : 'bis20'),
   create: (setup) => createGame(setup.presetId as ZdPresetId, setup.seed),
   reduce,
+  tutorial,
   canUndo: () => false,
   hasUndo: false,
   undoAction: { type: 'CLEAR_DRAFT' },

@@ -38,3 +38,27 @@
 .parent__stats td:first-child { display: flex; align-items: center; gap: 8px; }
 .parent__stats th { color: var(--c-muted); font-size: 14px; }
 .parent a { color: var(--c-blue); }
+
+/* ---------- Eigene Stimme ---------- */
+.voice__assistant { background: #f6f2ff; border-radius: 18px; padding: 14px 16px; margin: 12px 0; display: flex; flex-direction: column; gap: 10px; }
+.voice__progress { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; font-size: 15px; color: var(--c-muted); }
+.voice__bar { flex: 1; min-width: 120px; height: 10px; border-radius: 5px; background: #e4dcf8; overflow: hidden; }
+.voice__bar span { display: block; height: 100%; background: var(--c-purple); transition: width .3s; }
+.voice__next { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.voice__say { font-family: var(--font-num); font-size: 30px; font-weight: 600; color: var(--c-ink); }
+.voice__timer { height: 8px; border-radius: 4px; background: #f3d9e1; overflow: hidden; }
+.voice__timer span { display: block; height: 100%; width: 100%; background: var(--c-red); transform-origin: left; animation: voice-countdown linear forwards; }
+@keyframes voice-countdown { from { transform: scaleX(1); } to { transform: scaleX(0); } }
+.voice__btn { width: 52px; height: 52px; flex: none; border-radius: 14px; border: 3px solid var(--c-line); background: #fff; display: grid; place-items: center; cursor: pointer; color: var(--c-ink); }
+.voice__btn:disabled { opacity: .35; cursor: default; }
+.voice__btn--rec { color: var(--c-red); border-color: #f6c3d1; }
+.voice__btn--active { background: var(--c-red); color: #fff; border-color: var(--c-red); animation: pulse 1s ease-in-out infinite; }
+.voice__group { border-top: 2px solid #f1ece1; padding: 8px 0; }
+.voice__group summary { cursor: pointer; font-size: 17px; min-height: 44px; display: flex; align-items: center; gap: 6px; }
+.voice__group summary small { color: var(--c-muted); font-weight: 600; }
+.voice__list { list-style: none; margin: 4px 0 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 8px; }
+.voice__item { display: flex; align-items: center; gap: 8px; padding: 6px 8px; border-radius: 14px; background: #faf7f0; }
+.voice__item--done { background: #e9f7ed; }
+.voice__text { flex: 1; font-size: 16px; }
+.voice__text--long { font-size: 13px; color: var(--c-muted); }
+.voice__clear { margin-top: 10px; }

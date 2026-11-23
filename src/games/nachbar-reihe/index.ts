@@ -2,6 +2,7 @@ import { BOT_AVATARS, BOT_NAMES } from '../../core/bots/bots';
 import type { GameModule } from '../../core/types/game';
 import { createGame, reduce } from './engine';
 import { meta } from './meta';
+import { tutorial } from './tutorial';
 import { NachbarReiheView } from './NachbarReiheView';
 import type { NrAction, NrPresetId, NrState } from './types';
 
@@ -26,6 +27,7 @@ const module: GameModule<NrState, NrAction> = {
       seed: setup.seed,
     }),
   reduce,
+  tutorial,
   canUndo: () => false,
   hasUndo: false,
   undoAction: { type: 'HANDOFF_DONE' },

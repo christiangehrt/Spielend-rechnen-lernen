@@ -1,6 +1,7 @@
 import type { GameModule } from '../../core/types/game';
 import { bridgedCount, canUndo, createGame, crossingCount, reduce } from './engine';
 import { meta } from './meta';
+import { tutorial } from './tutorial';
 import type { ZhAction, ZhPresetId, ZhState } from './types';
 import { ZahlenstrahlView } from './ZahlenstrahlView';
 
@@ -17,6 +18,7 @@ const module: GameModule<ZhState, ZhAction> = {
   defaultPresetId: (range) => (range === 10 ? 'plus10' : range === 100 ? 'plus100' : 'plus20'),
   create: (setup) => createGame(setup.presetId as ZhPresetId, setup.seed),
   reduce,
+  tutorial,
   canUndo,
   undoAction: { type: 'UNDO' },
   resultDelayMs: 300,

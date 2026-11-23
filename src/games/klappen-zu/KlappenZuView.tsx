@@ -32,9 +32,9 @@ export function KlappenZuView({ state, dispatch, settings }: GameViewProps<Klapp
     if (state.phase === 'over' && !rolling) {
       if (state.open.length === 0) {
         audio.play('fanfare');
-        void audio.say({ text: 'Alle Klappen zu! Super!' });
+        void audio.say('all_shut');
       } else {
-        void audio.say({ text: `Das geht leider nicht mehr. ${penalty(state)} Punkte.` });
+        void audio.say('no_more_moves', penalty(state), 'points');
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -85,7 +85,7 @@ export function KlappenZuView({ state, dispatch, settings }: GameViewProps<Klapp
 
   const confirm = () => {
     if (!complete) {
-      shake('sum', { text: `Es fehlen noch ${goal - partial}.` });
+      shake('sum', 'missing', goal - partial);
       return;
     }
     audio.play('click');

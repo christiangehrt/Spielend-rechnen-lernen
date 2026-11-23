@@ -1,4 +1,6 @@
 import { clipKeyFor, textFor, type SpeechPart } from './phrases';
+import { findAudibleRange } from './trim';
+import { getAllVoiceClips } from './voiceStore';
 
 export type UiSound =
   | 'card'
@@ -39,7 +41,7 @@ const PREFERRED_VOICES = ['anna', 'petra', 'helena', 'katja', 'marlene', 'vicki'
  * Web Audio manager.
  *  - unlock(): call from the first user gesture (iOS/Chrome autoplay policy)
  *  - play(): short UI sounds from the pre-rendered sprite
- *  - say(): speech; recorded clips first, speechSynthesis as fallback
+ *  - say(): speech; own recordings first, then delivered clips, then speechSynthesis
  */
 export class AudioManager {
   private ctx: AudioContext | null = null;
@@ -52,6 +54,10 @@ export class AudioManager {
   private speechPrimed = false;
   private speechToken = 0;
   private activeSources: AudioBufferSourceNode[] = [];
+  private speechSources: AudioBufferSourceNode[] = [];
+  /** Parents' own recordings, decoded and trimmed. */
+  private voice = new Map<string, { buffer: AudioBuffer; start: number; end: number }>();
+  private voiceLoading: Promise<void> | null = null;
 
   configure(opts: { soundEnabled?: boolean; speechEnabled?: boolean }) {
     if (opts.soundEnabled !== undefined) this.soundEnabled = opts.soundEnabled;
@@ -114,6 +120,66 @@ export class AudioManager {
 
   private preload() {
     for (const id of Object.keys(this.manifest.sprites)) void this.loadSprite(id);
+    void this.loadVoice();
+  }
+
+  private decode(data: ArrayBuffer): Promise<AudioBuffer> {
+    const ctx = this.ctx!;
+    return new Promise<AudioBuffer>((resolve, reject) => {
+      // Callback form for older Safari versions.
+      const maybe = ctx.decodeAudioData(data, resolve, reject);
+      if (maybe && typeof maybe.then === 'function') maybe.then(resolve, reject);
+    });
+  }
+
+  /** (Re)loads the parents' recordings from IndexedDB. Needs an AudioContext (after the first tap). */
+  loadVoice(force = false): Promise<void> {
+    if (!this.ctx) return Promise.resolve();
+    if (this.voiceLoading && !force) return this.voiceLoading;
+    this.voiceLoading = (async () => {
+      const clips = await getAllVoiceClips();
+      const next = new Map<string, { buffer: AudioBuffer; start: number; end: number }>();
+      for (const c of clips) {
+        try {
+          const buffer = await this.decode(await c.blob.arrayBuffer());
+          const { start, end } = findAudibleRange(buffer.getChannelData(0), buffer.sampleRate);
+          next.set(c.key, { buffer, start, end });
+        } catch {
+          /* undecodable recording (e.g. from another browser) – fall back to synthesis */
+        }
+      }
+      this.voice = next;
+    })().catch(() => undefined);
+    return this.voiceLoading;
+  }
+
+  hasRecording(key: string) {
+    return this.voice.has(key);
+  }
+
+  private playVoice(key: string): number | null {
+    const v = this.voice.get(key);
+    if (!v || !this.ctx) return null;
+    try {
+      if (this.ctx.state !== 'running') void this.ctx.resume().catch(() => undefined);
+      const src = this.ctx.createBufferSource();
+      src.buffer = v.buffer;
+      src.connect(this.ctx.destination);
+      src.start(0, v.start, Math.max(0.05, v.end - v.start));
+      this.speechSources.push(src);
+      src.onended = () => {
+        this.speechSources = this.speechSources.filter((x) => x !== src);
+      };
+      return v.end - v.start;
+    } catch {
+      return null;
+    }
+  }
+
+  /** Preview of a single recording in the parent area (ignores the speech setting). */
+  previewRecording(key: string) {
+    this.stopSpeech();
+    this.playVoice(key);
   }
 
   private loadSprite(id: string): Promise<AudioBuffer | null> {
@@ -123,17 +189,9 @@ export class AudioManager {
     if (pending) return pending;
     const sprite = this.manifest.sprites[id];
     if (!sprite || !this.ctx) return Promise.resolve(null);
-    const ctx = this.ctx;
     const p = fetch(this.baseUrl + sprite.src)
       .then((r) => (r.ok ? r.arrayBuffer() : Promise.reject(new Error(String(r.status)))))
-      .then(
-        (data) =>
-          new Promise<AudioBuffer>((resolve, reject) => {
-            // Callback form for older Safari versions.
-            const maybe = ctx.decodeAudioData(data, resolve, reject);
-            if (maybe && typeof maybe.then === 'function') maybe.then(resolve, reject);
-          }),
-      )
+      .then((data) => this.decode(data))
       .then((buf) => {
         this.buffers.set(id, buf);
         return buf;
@@ -175,6 +233,14 @@ export class AudioManager {
 
   stopSpeech() {
     this.speechToken++;
+    for (const src of this.speechSources) {
+      try {
+        src.stop();
+      } catch {
+        /* already stopped */
+      }
+    }
+    this.speechSources = [];
     try {
       if ('speechSynthesis' in globalThis) globalThis.speechSynthesis.cancel();
     } catch {
@@ -191,11 +257,12 @@ export class AudioManager {
     this.stopSpeech();
     if (!this.speechEnabled || parts.length === 0) return Promise.resolve();
     const token = this.speechToken;
-    type Chunk = { clip: string } | { text: string };
+    type Chunk = { voice: string } | { clip: string } | { text: string };
     const chunks: Chunk[] = [];
     for (const part of parts) {
       const key = clipKeyFor(part);
-      if (key && this.hasClip(key)) chunks.push({ clip: key });
+      if (key && this.hasRecording(key)) chunks.push({ voice: key });
+      else if (key && this.hasClip(key)) chunks.push({ clip: key });
       else {
         const last = chunks[chunks.length - 1];
         if (last && 'text' in last) last.text += ` ${textFor(part)}`;
@@ -205,7 +272,10 @@ export class AudioManager {
     const run = async () => {
       for (const chunk of chunks) {
         if (token !== this.speechToken) return;
-        if ('clip' in chunk) {
+        if ('voice' in chunk) {
+          const d = this.playVoice(chunk.voice);
+          if (d) await wait(d * 1000 + 60);
+        } else if ('clip' in chunk) {
           const d = this.playClip(chunk.clip);
           if (d) await wait(d * 1000 + 40);
         } else {

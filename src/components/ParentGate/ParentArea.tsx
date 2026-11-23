@@ -12,6 +12,9 @@ import {
   useAppData,
 } from '../../core/storage/appStore';
 import { backupFileName, buildBackup, parseBackup } from '../../core/storage/backup';
+import { audio } from '../../core/audio/AudioManager';
+import { exportVoiceClips, importVoiceClips } from '../../core/audio/voiceStore';
+import { VoiceRecorder } from './VoiceRecorder';
 import { isPersistent } from '../../core/storage/kv';
 import type { NumberRange, ProfileSettings } from '../../core/types/profile';
 import { GAMES } from '../../games/registry';
@@ -81,8 +84,9 @@ function ParentContent() {
   if (!profile) return null;
   const s = profile.settings;
 
-  const exportBackup = () => {
-    const blob = new Blob([JSON.stringify(buildBackup(app), null, 2)], { type: 'application/json' });
+  const exportBackup = async () => {
+    const voice = await exportVoiceClips().catch(() => []);
+    const blob = new Blob([JSON.stringify(buildBackup(app, new Date(), voice), null, 2)], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
@@ -91,7 +95,10 @@ function ParentContent() {
     a.click();
     a.remove();
     setTimeout(() => URL.revokeObjectURL(url), 2000);
-    setMessage({ ok: true, text: 'Sicherung wurde als JSON-Datei heruntergeladen.' });
+    setMessage({
+      ok: true,
+      text: `Sicherung wurde als JSON-Datei heruntergeladen${voice.length ? ` (inkl. ${voice.length} Sprachaufnahmen)` : ''}.`,
+    });
   };
 
   const importBackup = async (file: File) => {
@@ -103,7 +110,14 @@ function ParentContent() {
     const n = parsed.backup.app.profiles.length;
     if (!confirm(`Sicherung mit ${n} Profil(en) laden? Alle aktuellen Profile und Spielstände werden ersetzt.`)) return;
     restoreBackup(parsed.backup);
-    setMessage({ ok: true, text: `Sicherung geladen: ${n} Profil(e).` });
+    if (parsed.backup.voice?.length) {
+      await importVoiceClips(parsed.backup.voice).catch(() => undefined);
+      await audio.loadVoice(true);
+    }
+    setMessage({
+      ok: true,
+      text: `Sicherung geladen: ${n} Profil(e)${parsed.backup.voice?.length ? `, ${parsed.backup.voice.length} Sprachaufnahmen` : ''}.`,
+    });
   };
 
   const requestPersist = async () => {
@@ -210,9 +224,14 @@ function ParentContent() {
             <p className="parent__note">
               {voices.length > 0
                 ? `Deutsche Stimme gefunden: ${voices[0]}.`
-                : 'Auf diesem Gerät wurde (noch) keine deutsche Sprachausgabe gefunden. Zahlen werden dann nicht vorgelesen – Geräusche funktionieren trotzdem. Tipp: In den Geräte-Einstellungen eine deutsche Stimme installieren.'}
+                : 'Auf diesem Gerät wurde (noch) keine deutsche Computerstimme gefunden. Nehmen Sie unten Ihre eigene Stimme auf oder installieren Sie in den Geräte-Einstellungen eine deutsche Stimme – sonst werden Zahlen nicht vorgelesen.'}
             </p>
           )}
+        </section>
+
+        <section className="parent__section">
+          <h2>Eigene Stimme</h2>
+          <VoiceRecorder />
         </section>
 
         <section className="parent__section">
@@ -258,7 +277,7 @@ function ParentContent() {
             <b>Teilen → Zum Home-Bildschirm</b> tippen (Android/Chrome: Menü → <b>App installieren</b>).
           </p>
           <div className="parent__actions">
-            <button type="button" className="parent__btn" onClick={exportBackup}>
+            <button type="button" className="parent__btn" onClick={() => void exportBackup()}>
               <Download size={22} /> Sicherung exportieren
             </button>
             <button type="button" className="parent__btn" onClick={() => fileInput.current?.click()}>

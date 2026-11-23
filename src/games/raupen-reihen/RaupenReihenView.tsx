@@ -10,7 +10,7 @@ import { cardPoints, playerPoints, ROW_LIMIT, targetRow } from './engine';
 import type { RrAction, RrState } from './types';
 import './RaupenReihen.css';
 
-export function RaupenReihenView({ state, dispatch, settings }: GameViewProps<RrState, RrAction>) {
+export function RaupenReihenView({ state, dispatch, settings, paused = false }: GameViewProps<RrState, RrAction>) {
   const [picked, setPicked] = useState<number | null>(null);
   const chooser = state.players[state.chooserIndex];
   const current = state.queue[0];
@@ -21,7 +21,7 @@ export function RaupenReihenView({ state, dispatch, settings }: GameViewProps<Rr
 
   // Reveal step by step (first step waits a bit longer so everyone sees all cards).
   useBotTimer(
-    state.phase === 'reveal' && state.queue.length > 0,
+    !paused && state.phase === 'reveal' && state.queue.length > 0,
     () => {
       firstStep.current = false;
       dispatch({ type: 'STEP' });

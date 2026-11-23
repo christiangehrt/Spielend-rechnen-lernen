@@ -50,7 +50,7 @@ function LobbyInner({ mod, profile }: { mod: GameModule; profile: PlayerProfile 
   });
 
   useEffect(() => {
-    void audio.say({ text: mod.meta.title });
+    void audio.say({ text: mod.meta.title, key: `title_${mod.meta.id}` });
   }, [mod.meta.title]);
 
   const start = () => {
@@ -84,7 +84,7 @@ function LobbyInner({ mod, profile }: { mod: GameModule; profile: PlayerProfile 
             <Art name={mod.meta.art} size={150} />
           </div>
           <h1 className="lobby__title">{mod.meta.title}</h1>
-          <Button label="Erklärung anhören" size="big" variant="blue" onClick={() => void audio.say({ text: mod.meta.intro })}>
+          <Button label="Erklärung anhören" size="big" variant="blue" onClick={() => void audio.say({ text: mod.meta.intro, key: `intro_${mod.meta.id}` })}>
             <Volume2 size={40} strokeWidth={2.6} />
           </Button>
         </section>

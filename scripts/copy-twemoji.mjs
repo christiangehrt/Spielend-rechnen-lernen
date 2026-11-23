@@ -86,6 +86,7 @@ const ART = {
   'card.trommel': ['1f941', '🥁'],
   'card.clown': ['1f921', '🤡'],
   'ui.zzz': ['1f4a4', '💤'],
+  'ui.hand': ['1f446', '👆'],
   // album scenes
   'theme.jungle': ['1f334', '🌴'],
   'theme.space': ['1f680', '🚀'],

@@ -2,6 +2,7 @@ import { BOT_AVATARS, BOT_NAMES } from '../../core/bots/bots';
 import type { GameModule } from '../../core/types/game';
 import { createGame, playerPoints, reduce } from './engine';
 import { meta } from './meta';
+import { tutorial } from './tutorial';
 import { RaupenReihenView } from './RaupenReihenView';
 import type { RrAction, RrPresetId, RrState } from './types';
 
@@ -30,6 +31,7 @@ const module: GameModule<RrState, RrAction> = {
     });
   },
   reduce,
+  tutorial,
   canUndo: () => false,
   hasUndo: false,
   undoAction: { type: 'HANDOFF_DONE' },

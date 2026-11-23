@@ -1,4 +1,5 @@
 import { migrateAppData, type AppData } from './appData';
+import type { VoiceExport } from '../audio/voiceStore';
 import { listAllSessionKeys, readRaw } from './sessions';
 
 export const BACKUP_FORMAT = 'spielend-rechnen-lernen-backup';
@@ -10,9 +11,11 @@ export interface BackupFile {
   exportedAt: string;
   app: AppData;
   sessions: Record<string, unknown>;
+  /** Parents' own voice recordings (optional, base64). */
+  voice?: VoiceExport[];
 }
 
-export const buildBackup = (app: AppData, now = new Date()): BackupFile => {
+export const buildBackup = (app: AppData, now = new Date(), voice: VoiceExport[] = []): BackupFile => {
   const sessions: Record<string, unknown> = {};
   for (const key of listAllSessionKeys()) {
     const value = readRaw(key);
@@ -24,6 +27,7 @@ export const buildBackup = (app: AppData, now = new Date()): BackupFile => {
     exportedAt: now.toISOString(),
     app,
     sessions,
+    ...(voice.length ? { voice } : {}),
   };
 };
 
@@ -51,6 +55,12 @@ export const parseBackup = (text: string): ParseResult => {
       if (key.startsWith('activeSession_')) sessions[key] = value;
     }
   }
+  const voice = Array.isArray(file.voice)
+    ? file.voice.filter(
+        (v): v is VoiceExport =>
+          !!v && typeof v.key === 'string' && typeof v.mime === 'string' && typeof v.data === 'string' && /^[A-Za-z0-9+/=]*$/.test(v.data),
+      )
+    : [];
   return {
     ok: true,
     backup: {
@@ -59,6 +69,7 @@ export const parseBackup = (text: string): ParseResult => {
       exportedAt: typeof file.exportedAt === 'string' ? file.exportedAt : '',
       app,
       sessions,
+      ...(voice.length ? { voice } : {}),
     },
   };
 };

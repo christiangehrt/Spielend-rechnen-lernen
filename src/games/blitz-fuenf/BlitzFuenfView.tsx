@@ -33,7 +33,7 @@ export function FruitCard({ card, size = 150 }: { card: number | null; size?: nu
 
 const PAUSE_MS = 1600;
 
-export function BlitzFuenfView({ state, dispatch }: GameViewProps<BfState, BfAction>) {
+export function BlitzFuenfView({ state, dispatch, paused: tutorialOpen = false }: GameViewProps<BfState, BfAction>) {
   const split = state.players.every((p) => p.kind === 'human');
   const [paused, setPaused] = useState(false);
   const pending = useRef<{ player: number; t: number }[]>([]);
@@ -74,7 +74,7 @@ export function BlitzFuenfView({ state, dispatch }: GameViewProps<BfState, BfAct
   }, [state.buzzCount, state.lastBuzz, state.players, split]);
 
   // Bot flips its card.
-  useBotTimer(state.phase === 'playing' && !paused && active.kind === 'bot', () => {
+  useBotTimer(!tutorialOpen && state.phase === 'playing' && !paused && active.kind === 'bot', () => {
     audio.play('flip');
     dispatch({ type: 'FLIP', player: state.active });
   }, [state.active, state.flips, state.buzzCount]);
@@ -85,7 +85,7 @@ export function BlitzFuenfView({ state, dispatch }: GameViewProps<BfState, BfAct
   const [botMisses, setBotMisses] = useState(false);
   useEffect(() => setBotMisses(Math.random() < reaction.miss), [state.flips, reaction.miss]);
   useBotTimer(
-    state.phase === 'playing' && !paused && match && botIndex >= 0 && !botMisses,
+    !tutorialOpen && state.phase === 'playing' && !paused && match && botIndex >= 0 && !botMisses,
     () => buzz(botIndex, performance.now()),
     [state.flips, state.buzzCount],
     jitter(reaction.min, reaction.max),

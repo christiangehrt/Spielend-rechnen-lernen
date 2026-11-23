@@ -253,6 +253,10 @@
       "src": "assets/art/ui-zzz.svg",
       "emoji": "💤"
     },
+    "ui.hand": {
+      "src": "assets/art/ui-hand.svg",
+      "emoji": "👆"
+    },
     "theme.jungle": {
       "src": "assets/art/theme-jungle.svg",
       "emoji": "🌴"

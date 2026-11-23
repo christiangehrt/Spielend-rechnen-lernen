@@ -2,6 +2,7 @@ import { BOT_AVATARS, BOT_NAMES } from '../../core/bots/bots';
 import type { GameModule } from '../../core/types/game';
 import { createGame, points, reduce } from './engine';
 import { meta } from './meta';
+import { tutorial } from './tutorial';
 import { SchlummerSchlossView } from './SchlummerSchlossView';
 import type { SsAction, SsPresetId, SsState } from './types';
 
@@ -26,6 +27,7 @@ const module: GameModule<SsState, SsAction> = {
       seed: setup.seed,
     }),
   reduce,
+  tutorial,
   canUndo: () => false,
   hasUndo: false,
   undoAction: { type: 'CANCEL' },

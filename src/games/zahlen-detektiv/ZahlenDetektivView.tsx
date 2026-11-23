@@ -1,6 +1,7 @@
 import { HelpCircle, Play } from 'lucide-react';
 import { useEffect, useRef } from 'react';
 import { audio } from '../../core/audio/AudioManager';
+import type { SpeechPart } from '../../core/audio/phrases';
 import { DotPattern } from '../../core/scaffolding/DotPattern';
 import type { GameViewProps } from '../../core/types/game';
 import { Art } from '../../components/shared/Art';
@@ -10,23 +11,24 @@ import { answerFor, candidates, currentCase, isDraftComplete, lastQuestion } fro
 import type { Question, QuestionKind, ZdAction, ZdState } from './types';
 import './ZahlenDetektiv.css';
 
-const KINDS: { kind: QuestionKind; symbol: string; speech: string }[] = [
-  { kind: 'gt', symbol: '>', speech: 'Ist sie größer als …?' },
-  { kind: 'lt', symbol: '<', speech: 'Ist sie kleiner als …?' },
-  { kind: 'between', symbol: '↔', speech: 'Liegt sie zwischen … und …?' },
-  { kind: 'exact', symbol: '🎯', speech: 'Ist es genau …?' },
+const KINDS: { kind: QuestionKind; symbol: string; speech: string; parts: SpeechPart[] }[] = [
+  { kind: 'gt', symbol: '>', speech: 'Ist sie größer als …?', parts: ['bigger'] },
+  { kind: 'lt', symbol: '<', speech: 'Ist sie kleiner als …?', parts: ['smaller'] },
+  { kind: 'between', symbol: '↔', speech: 'Liegt sie zwischen … und …?', parts: ['between'] },
+  { kind: 'exact', symbol: '🎯', speech: 'Ist es genau …?', parts: ['is_it'] },
 ];
 
-const questionText = (q: Omit<Question, 'answer'>) => {
+/** The question as speech parts, e.g. "größer als" + 7 (recordable building blocks). */
+const questionParts = (q: Omit<Question, 'answer'>): SpeechPart[] => {
   switch (q.kind) {
     case 'gt':
-      return `Größer als ${q.a}?`;
+      return ['bigger', q.a];
     case 'lt':
-      return `Kleiner als ${q.a}?`;
+      return ['smaller', q.a];
     case 'between':
-      return `Zwischen ${q.a} und ${q.b}?`;
+      return ['between', q.a, 'and', q.b!];
     case 'exact':
-      return `Ist es die ${q.a}?`;
+      return ['is_it', q.a];
   }
 };
 
@@ -53,31 +55,31 @@ export function ZahlenDetektivView({ state, dispatch, settings }: GameViewProps<
     const useless = before.length > 0 && before.every((n) => answerFor(q, n) === q.answer);
     if (q.kind === 'exact' && q.answer) {
       audio.play('fanfare');
-      void audio.say({ text: `${questionText(q)} Ja! Du hast meine Zahl gefunden!` });
+      void audio.say(...questionParts(q), 'yes', 'found_it');
     } else {
       audio.play(q.answer ? 'success' : 'plop');
-      void audio.say({ text: `${questionText(q)} ${q.answer ? 'Ja!' : 'Nein.'}${useless ? ' Das wussten wir schon.' : ''}` });
+      void audio.say(...questionParts(q), q.answer ? 'yes' : 'no', ...(useless ? (['knew_that'] as SpeechPart[]) : []));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [c.questions.length]);
 
   useEffect(() => {
     if (state.phase === 'asking' && c.questions.length === 0) {
-      void audio.say({ text: `Ich denke mir eine Zahl bis ${state.preset.max}.` });
+      void audio.say('think_number', state.preset.max);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state.caseIndex]);
 
-  const onKind = (kind: QuestionKind, speech: string) => {
+  const onKind = (kind: QuestionKind, parts: SpeechPart[]) => {
     audio.play('select');
-    void audio.say({ text: speech });
+    void audio.say(...parts);
     dispatch({ type: 'SET_KIND', kind });
   };
 
   const onNumber = (n: number) => {
     if (state.phase !== 'asking') return;
     if (!draft) {
-      shake('kinds', { text: 'Wähle zuerst eine Frage.' });
+      shake('kinds', 'choose_question');
       return;
     }
     audio.play('select');
@@ -87,7 +89,7 @@ export function ZahlenDetektivView({ state, dispatch, settings }: GameViewProps<
 
   const onAsk = () => {
     if (!complete) {
-      shake('ask', { text: draft ? 'Tippe auf eine Zahl.' : 'Wähle zuerst eine Frage.' });
+      shake('ask', draft ? 'tap_number' : 'choose_question');
       return;
     }
     dispatch({ type: 'ASK' });
@@ -158,7 +160,7 @@ export function ZahlenDetektivView({ state, dispatch, settings }: GameViewProps<
                   className={`btn btn--big zd__kind ${draft?.kind === k.kind ? 'btn--selected' : ''}`}
                   aria-label={k.speech}
                   aria-pressed={draft?.kind === k.kind}
-                  onClick={() => onKind(k.kind, k.speech)}
+                  onClick={() => onKind(k.kind, k.parts)}
                 >
                   {k.symbol}
                 </button>

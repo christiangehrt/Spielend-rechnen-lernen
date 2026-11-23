@@ -26,9 +26,9 @@ export function VerliebteZahlenView({ state, dispatch, settings }: GameViewProps
     if (!state.lastStolen) return;
     if (state.lastStolen.length > 0) {
       audio.play('whoosh');
-      void audio.say({ text: 'Oh nein! Die Elster klaut deine Karten.' });
+      void audio.say('magpie_steals');
     } else {
-      void audio.say({ text: 'Die Elster fliegt weg.' });
+      void audio.say('magpie_flies');
     }
   }, [state.lastStolen]);
 
@@ -78,7 +78,7 @@ export function VerliebteZahlenView({ state, dispatch, settings }: GameViewProps
       setHinted(h);
       audio.play('plop');
     } else {
-      shake('hint', { text: 'Drehe noch ein Kärtchen um.' });
+      shake('hint', 'flip_more');
     }
   };
 

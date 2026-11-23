@@ -32,6 +32,8 @@ export interface PlayerProfile {
   placedStickers: PlacedSticker[];
   settings: ProfileSettings;
   gameStats: Record<string, GameStats>;
+  /** Games whose show-how tutorial this child has already seen. */
+  tutorialsSeen: string[];
   createdAt: number;
 }
 

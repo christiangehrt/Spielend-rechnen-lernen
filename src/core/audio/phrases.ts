@@ -1,31 +1,55 @@
 /**
- * Speech catalogue. Each key can be served by a recorded clip from
- * sounds.json ("clips"); otherwise the German text is spoken with the
- * browser's speech synthesis (if a German voice exists).
+ * Speech catalogue. Each key can be served (in this order) by
+ *  1. a parent's own recording (Elternbereich → Eigene Stimme),
+ *  2. a delivered clip from sounds.json ("clips"),
+ *  3. the browser's speech synthesis (if a German voice exists).
  */
 export const PHRASES = {
+  // arithmetic
   plus: 'plus',
   minus: 'minus',
   equals: 'ist gleich',
   ten_jump: 'Zehnersprung!',
   five_jump: 'Fünfersprung!',
+  // praise
   great: 'Super gemacht!',
   well_done: 'Gut gemacht!',
+  won: 'Gewonnen!',
+  new_sticker: 'Ein neuer Sticker!',
+  chest: 'Eine Schatztruhe!',
+  all_shut: 'Alle Klappen zu! Super!',
+  found_it: 'Du hast meine Zahl gefunden!',
+  // hints
   try_again: 'Versuch es nochmal.',
   not_here: 'Das passt hier nicht.',
   too_far: 'Zu weit!',
   too_much: 'Das ist zu viel.',
+  missing: 'Es fehlen noch',
+  one_more_card: 'Lege noch eine Karte.',
+  two_more_cards: 'Lege noch zwei Karten.',
+  no_more_moves: 'Das geht leider nicht mehr.',
+  points: 'Punkte',
+  flip_more: 'Drehe noch ein Kärtchen um.',
+  magpie_steals: 'Oh nein! Die Elster klaut deine Karten.',
+  magpie_flies: 'Die Elster fliegt weg.',
+  bigger_jump: 'Mach einen größeren Sprung!',
+  frog_right: 'Der Frosch hüpft nach rechts.',
+  frog_left: 'Der Frosch hüpft nach links.',
   your_turn: 'Du bist dran.',
-  yes: 'Ja!',
-  no: 'Nein.',
+  // detective
+  think_number: 'Ich denke mir eine Zahl bis',
   bigger: 'größer als',
   smaller: 'kleiner als',
   between: 'zwischen',
   and: 'und',
+  is_it: 'Ist es die',
   exactly: 'genau',
-  won: 'Gewonnen!',
-  chest: 'Eine Schatztruhe!',
-  new_sticker: 'Ein neuer Sticker!',
+  yes: 'Ja!',
+  no: 'Nein.',
+  knew_that: 'Das wussten wir schon.',
+  choose_question: 'Wähle zuerst eine Frage.',
+  tap_number: 'Tippe auf eine Zahl.',
+  // navigation
   continue: 'Weiterspielen',
   new_game: 'Neues Spiel',
   hold_parent: 'Für Eltern: drei Sekunden gedrückt halten.',
@@ -33,11 +57,14 @@ export const PHRASES = {
 
 export type PhraseKey = keyof typeof PHRASES;
 
-/** A piece of an utterance: a phrase key, a number, or free text. */
-export type SpeechPart = PhraseKey | number | { text: string };
+/**
+ * A piece of an utterance: a phrase key, a number, or free text. Free text may
+ * carry a `key` (e.g. `title_klappen-zu`) so a recording can replace it.
+ */
+export type SpeechPart = PhraseKey | number | { text: string; key?: string };
 
 export const clipKeyFor = (part: SpeechPart): string | null =>
-  typeof part === 'number' ? `num_${part}` : typeof part === 'string' ? part : null;
+  typeof part === 'number' ? `num_${part}` : typeof part === 'string' ? part : (part.key ?? null);
 
 export const textFor = (part: SpeechPart): string =>
   typeof part === 'number' ? String(part) : typeof part === 'string' ? PHRASES[part] : part.text;

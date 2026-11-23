@@ -34,7 +34,7 @@ function ColorCard({ card, small = false, selected = false, onClick, label }: { 
   );
 }
 
-export function NachbarReiheView({ state, dispatch }: GameViewProps<NrState, NrAction>) {
+export function NachbarReiheView({ state, dispatch, paused = false }: GameViewProps<NrState, NrAction>) {
   const { shake, shakeClass } = useShake();
   const [selected, setSelected] = useState<number | null>(null);
   const me = state.players[state.active];
@@ -44,7 +44,7 @@ export function NachbarReiheView({ state, dispatch }: GameViewProps<NrState, NrA
 
   useEffect(() => setSelected(null), [state.active]);
 
-  useBotTimer(me.kind === 'bot' && state.phase === 'playing', () => dispatch({ type: 'BOT_STEP' }), [
+  useBotTimer(!paused && me.kind === 'bot' && state.phase === 'playing', () => dispatch({ type: 'BOT_STEP' }), [
     state.active,
     state.playedThisTurn,
     state.drawsThisTurn,

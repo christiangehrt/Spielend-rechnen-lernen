@@ -2,6 +2,7 @@ import type { GameModule } from '../../core/types/game';
 import { canUndo, createGame, penalty, reduce } from './engine';
 import { KlappenZuView } from './KlappenZuView';
 import { meta } from './meta';
+import { tutorial } from './tutorial';
 import type { KlappenAction, KlappenPresetId, KlappenState } from './types';
 
 const module: GameModule<KlappenState, KlappenAction> = {
@@ -16,6 +17,7 @@ const module: GameModule<KlappenState, KlappenAction> = {
   defaultPresetId: (range) => (range === 10 ? 'klappen6' : range === 100 ? 'klappen12' : 'klappen9'),
   create: (setup) => createGame(setup.presetId as KlappenPresetId, setup.seed),
   reduce,
+  tutorial,
   canUndo,
   undoAction: { type: 'UNDO' },
   resultDelayMs: 2600,

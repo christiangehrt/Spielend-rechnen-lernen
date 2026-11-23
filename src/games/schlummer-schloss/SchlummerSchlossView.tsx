@@ -46,7 +46,7 @@ function ActionCard({ card, selected, onClick, dimmed }: { card: number; selecte
   );
 }
 
-export function SchlummerSchlossView({ state, dispatch, settings }: GameViewProps<SsState, SsAction>) {
+export function SchlummerSchlossView({ state, dispatch, settings, paused = false }: GameViewProps<SsState, SsAction>) {
   const { shake, shakeClass } = useShake();
   const acting = whoActs(state);
   const actor = state.players[acting];
@@ -56,7 +56,7 @@ export function SchlummerSchlossView({ state, dispatch, settings }: GameViewProp
   const myTurn = state.phase === 'turn' && state.players[state.active].kind === 'human' && !state.handoff;
   const selection = classify(state, state.selected);
 
-  useBotTimer(actor?.kind === 'bot' && state.phase !== 'over', () => dispatch({ type: 'BOT_STEP' }), [state.phase, state.active, state.eventId, acting]);
+  useBotTimer(!paused && actor?.kind === 'bot' && state.phase !== 'over', () => dispatch({ type: 'BOT_STEP' }), [state.phase, state.active, state.eventId, acting]);
 
   // Speak what happened.
   const seen = useRef(state.eventId);

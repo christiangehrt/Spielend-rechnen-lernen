@@ -1,6 +1,7 @@
 import type { GameModule } from '../../core/types/game';
 import { canUndo, collectedCount, createGame, isOver, reduce } from './engine';
 import { meta } from './meta';
+import { tutorial } from './tutorial';
 import type { VzAction, VzPresetId, VzState } from './types';
 import { VerliebteZahlenView } from './VerliebteZahlenView';
 
@@ -16,6 +17,7 @@ const module: GameModule<VzState, VzAction> = {
   defaultPresetId: (range) => (range === 100 ? 'raster40' : 'raster20'),
   create: (setup) => createGame(setup.presetId as VzPresetId, setup.seed),
   reduce,
+  tutorial,
   canUndo,
   undoAction: { type: 'UNDO' },
   resultDelayMs: 1400,

@@ -27,6 +27,7 @@ describe('app data', () => {
     expect(app.activeProfileId).toBe('x');
     expect(app.profiles[0].settings).toMatchObject({ soundEnabled: false, speechEnabled: true, defaultNumberRange: 20 });
     expect(app.profiles[0].starsTowardNextSticker).toBe(0);
+    expect(app.profiles[0].tutorialsSeen).toEqual([]);
   });
 
   it('rejects garbage profiles', () => {
@@ -82,6 +83,14 @@ describe('JSON backup', () => {
     restoreBackup(parsed.backup);
     expect(appStore.get()).toEqual(before);
     expect(loadSession(p.id, 'g', 1)?.state).toEqual({ a: 1 });
+  });
+
+  it('keeps valid voice recordings and drops broken entries', () => {
+    addProfile('Mia', 'avatar.cat');
+    const file = buildBackup(appStore.get(), new Date(), [{ key: 'num_7', mime: 'audio/webm', data: 'AAEC' }]);
+    const text = JSON.stringify({ ...file, voice: [...file.voice!, { key: 3 }, { key: 'x', mime: 'a', data: '<script>' }] });
+    const parsed = parseBackup(text);
+    expect(parsed.ok && parsed.backup.voice).toEqual([{ key: 'num_7', mime: 'audio/webm', data: 'AAEC' }]);
   });
 
   it('rejects foreign or broken files', () => {

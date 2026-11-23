@@ -2,8 +2,9 @@
 
 Offline-fähige Mathe-Spielesammlung (PWA) für Kinder ab 6 Jahren: 9 Spiele für den Übergang vom
 zählenden Rechnen zu Addition, Zahlzerlegung, Abstandsabschätzung und Zahlensprüngen.
-Bedienbar ohne Lesekenntnisse (Icons, Animationen, Sprachausgabe), große Touch-Flächen,
-kurze Runden, keine Zeitlimits, sanftes Feedback bei falschen Zügen.
+Bedienbar ohne Lesekenntnisse (Icons, Animationen, Sprachausgabe – auf Wunsch mit der **eigenen
+Stimme der Eltern**), große Touch-Flächen, kurze Runden, keine Zeitlimits, sanftes Feedback bei
+falschen Zügen. Beim ersten Spielen zeigt eine **animierte Hand** jedes Spiel in wenigen Schritten vor.
 
 Umgesetzt sind alle Roadmap-Phasen aus dem Entwickler-Briefing v2.0. Die finalen
 Illustrationen und Sprachaufnahmen kommen später über den [Asset-Contract](#asset-contract).
@@ -31,6 +32,19 @@ Trommel (Zauberstab), Clown (Hofnarr). Die Hund/Katze-Konfliktregel ist nicht en
 
 Roboter-Stärken (Anfänger = Standard, Mittel, Clever) folgen den Heuristiken aus Abschnitt 6 des
 Briefings; Bots „denken“ 800–1500 ms, damit das Kind jeden Zug verfolgen kann.
+
+## Vormachen statt Vorlesen
+
+- **Vormach-Tutorials:** Beim ersten Start eines Spiels wird das Spiel abgedunkelt, eine Hand tippt
+  die wichtigen Stellen an bzw. zieht eine Karte vor, dazu je ein kurzer gesprochener Satz. Tippen
+  springt zum nächsten Schritt, ✕ beendet. Der Hand-Knopf oben im Spiel zeigt es jederzeit erneut.
+  Roboter-Gegner warten so lange. Die Tutorials greifen echte Elemente des aktuellen Spielstands auf
+  (z. B. eine Karte, die wirklich passt); beim Zahlenstrahl wird nie die Lösung der aktuellen Aufgabe gezeigt.
+- **Eigene Stimme:** Im Elternbereich nehmen Eltern Zahlen (0–20, optional bis 100), Rechenwörter,
+  Lob, Hinweise, Spielnamen und – optional – eigene Spielerklärungen auf. Ein Assistent führt Wort
+  für Wort durch, Pausen am Anfang/Ende werden automatisch abgeschnitten. Aufnahmen liegen in
+  IndexedDB auf dem Gerät, sind in der JSON-Sicherung enthalten und haben Vorrang vor gelieferten
+  Clips und der Computerstimme. Fehlende Wörter spricht weiterhin die Computerstimme.
 
 ## Schnellstart
 
@@ -74,20 +88,21 @@ src/
   core/
     types/                   Profile, Settings, Rewards, GameModule-Schnittstelle
     storage/                 localStorage-Wrapper, Schema-Migration, Auto-Resume, JSON-Backup
-    audio/                   Web-Audio-Manager (Unlock, Sprites, Sprach-Fallback), Sprachbausteine
+    audio/                   Web-Audio-Manager (Unlock, Sprites, eigene Aufnahmen, Sprach-Fallback),
+                             Sprachbausteine, Aufnahme-Katalog, IndexedDB-Speicher für Aufnahmen
     rewards/                 Sterne, Schatztruhe, Statistik (reine Funktionen)
     bots/                    Denkpausen, Bot-Stärken, Timer-Hook
     scaffolding/             Punktemuster (5er-/10er-Feld), Mini-Zahlenstrahl
     random/, history.ts, subsetSum.ts, router.ts
   components/
     Hub/                     Startseite (9 Kacheln, Lernziel-Filter), Lobby, Profile
-    GameHost/                Spielrahmen: Laden/Speichern, Undo, Ergebnis, Sterne, Truhe
+    GameHost/                Spielrahmen: Laden/Speichern, Undo, Ergebnis, Sterne, Truhe, Vormach-Tutorial
     StickerAlbum/            Szenen mit Drag & Drop, Tippen-zum-Platzieren, Skalieren (Pinch/±)
-    ParentGate/              Elternbereich (3 Sekunden halten)
+    ParentGate/              Elternbereich (3 Sekunden halten) inkl. Aufnahme der eigenen Stimme
     shared/                  Buttons, Karten, Würfel, Overlays, Drag & Drop, Pass-and-Play
   games/
     registry.ts              zentrale Registrierung aller 9 Module (lazy geladen)
-    <spiel>/                 meta.ts · types.ts · engine.ts · engine.test.ts · View · index.ts
+    <spiel>/                 meta.ts · types.ts · engine.ts · engine.test.ts · tutorial.ts · View · index.ts
 ```
 
 **Game-Engine-Pattern:** Jede Spiellogik ist ein reiner Reducer (`reduce(state, action) → state`)
@@ -107,8 +122,8 @@ Gleichung, Zerlegung mit 3+ Teilen, Zehner-Zwischenstopp, Intervall-Halbierung).
 öffnet sich eine Truhe mit einem neuen Sticker, ohne Doppelte.
 
 **Audio:** Beim ersten Tippen wird der `AudioContext` entsperrt. UI-Geräusche kommen aus einem
-selbst synthetisierten MP3-Sprite (`scripts/generate-ui-sounds.py`). Sprache wird zuerst aus
-aufgenommenen Clips gespielt; fehlt ein Clip, spricht `speechSynthesis` den Text. Gibt es keine
+selbst synthetisierten MP3-Sprite (`scripts/generate-ui-sounds.py`). Sprache kommt in dieser
+Reihenfolge aus: eigenen Aufnahmen der Eltern → gelieferten Clips (`sounds.json`) → `speechSynthesis`. Gibt es keine
 deutsche Stimme, bleibt die App still, statt falsch auszusprechen. Der Elternbereich zeigt an, ob
 eine deutsche Stimme vorhanden ist.
 
@@ -146,19 +161,23 @@ und den JSON-Export/-Import aller Profile, Sticker-Alben und laufenden Spiele.
 
 ## Qualitätssicherung
 
-Automatisch geprüft (`npm test`, 126 Tests):
+Automatisch geprüft (`npm test`, 134 Tests):
 - The Game: Pflichtabgabe sinkt bei leerem Stapel von 2 auf 1, Undo stellt den Zug exakt wieder her
 - Shut the Box: Subset-Sum-Ende (offen 2/4/6, Wurf 5 → sofort Ende), 1-Würfel-Option genau wenn alle Klappen > 6 zu sind
 - Sleeping Queens: 2- und Mehr-Summanden-Gleichungen (1+2+3=6), Ablehnung falscher, Konter als Interrupt
 - 6 nimmt!: strikt aufsteigende Abarbeitung, manuell gewählte Reihe beginnt mit der neuen Karte, bevor die nächste Karte geprüft wird
 - Auto-Resume und JSON-Backup verlustfrei (Round-Trip-Test), Schema-Migration
 - Bot-gegen-Bot-Partien aller Stärken laufen ohne Hänger durch
+- Tutorials für alle 9 Spiele (kurze Sätze, echte Spielzüge, keine Lösung verraten), Aufnahme-Katalog, Stille-Trimmung
 
 Im Browser geprüft (Chromium, Tablet- und Handy-Querformat): alle 9 Spiele spielbar, Reload mitten im
-Spiel, Offline-Start aller Spiele über den Service Worker, keine Konsolenfehler.
+Spiel, Offline-Start aller Spiele über den Service Worker, Tutorials aller Spiele, Aufnahme mit
+simuliertem Mikrofon inkl. Wiedergabe im Spiel und Sicherung, keine Konsolenfehler.
 
 **Noch auf echten Geräten zu prüfen** (Abnahmekriterien Abschnitt 8): iPadOS Safari und Android
-Chrome (Audio-Unlock, Sprachausgabe, Installation, Multi-Touch im Split-Screen von Blitz-Fünf).
+Chrome (Audio-Unlock, Sprachausgabe, Installation, Multi-Touch im Split-Screen von Blitz-Fünf,
+Mikrofonaufnahme). Aufnahmen aus Chrome (WebM) lassen sich auf älteren iPads evtl. nicht abspielen –
+dort am besten direkt auf dem iPad aufnehmen.
 
 ## Lizenzen der Platzhalter-Assets
 

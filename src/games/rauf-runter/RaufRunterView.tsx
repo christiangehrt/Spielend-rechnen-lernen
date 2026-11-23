@@ -64,7 +64,7 @@ export function RaufRunterView({ state, dispatch, settings }: GameViewProps<TheG
   const onEndTurn = () => {
     if (!endAllowed) {
       const missing = required - state.cardsPlayedThisTurn;
-      shake('turn', { text: missing === 1 ? 'Lege noch eine Karte.' : `Lege noch ${missing} Karten.` });
+      shake('turn', missing === 1 ? 'one_more_card' : 'two_more_cards');
       return;
     }
     audio.play('card');

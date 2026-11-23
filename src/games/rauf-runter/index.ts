@@ -1,6 +1,7 @@
 import type { GameModule } from '../../core/types/game';
 import { canUndo, createGame, reduce, remainingCards } from './engine';
 import { meta } from './meta';
+import { tutorial } from './tutorial';
 import { RaufRunterView } from './RaufRunterView';
 import type { GamePresetId, TheGameAction, TheGameState } from './types';
 
@@ -27,6 +28,7 @@ const module: GameModule<TheGameState, TheGameAction> = {
       seed: setup.seed,
     }),
   reduce,
+  tutorial,
   canUndo,
   undoAction: { type: 'UNDO' },
   result: (s) => {

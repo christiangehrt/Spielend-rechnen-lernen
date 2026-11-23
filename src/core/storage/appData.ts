@@ -43,6 +43,7 @@ export const createProfile = (name: string, avatarId: string): PlayerProfile => 
   placedStickers: [],
   settings: { ...DEFAULT_SETTINGS },
   gameStats: {},
+  tutorialsSeen: [],
   createdAt: Date.now(),
 });
 
@@ -110,6 +111,9 @@ export const normalizeProfile = (raw: unknown): PlayerProfile | null => {
     placedStickers: stickers.map(normalizeSticker).filter((s): s is PlacedSticker => s !== null),
     settings: normalizeSettings(raw.settings),
     gameStats: normalizeStats(raw.gameStats),
+    tutorialsSeen: Array.isArray(raw.tutorialsSeen)
+      ? [...new Set(raw.tutorialsSeen.filter((x): x is string => typeof x === 'string'))]
+      : [],
     createdAt: num(raw.createdAt, Date.now()),
   };
 };
